@@ -1,10 +1,7 @@
 import React, {useLayoutEffect, useEffect, useState} from 'react'; 
-import {Button, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {useRouter} from 'expo-router';
+import {Button, Text, View, StyleSheet, Pressable} from 'react-native';
 import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wordhunallg';
 import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
-//figure out where we build the trie and how to cache it
 
 const trie: TrieNode = build_trie();
 
@@ -48,7 +45,6 @@ type letProp = {
   style?: any;
 };
 
-//what does removing safeareaprovider do?
 const LetterBox = (props: letProp) => {
   return (
     <Pressable
@@ -63,14 +59,11 @@ const LetterBox = (props: letProp) => {
   );
 };
 
-//gonna have to change onPress, event handler?
-//so actually grid would have a container for each row
 const Grid = () => {
   const [isSelected, setIsSelected] = useState<boolean[][]>(new Array(5).fill(new Array(5).fill(false)));
   const [board, setBoard] = useState<string[][]>(make_rand_board(5));
   const [posx, setPosx] = useState<number>(0);
   const [posy, setPosy] = useState<number>(0);
-  //const [layout, setLayout] = useState<{x: number, y: number, width: number, height: number}>({x: 0, y: 0, width: 0, height: 0});
   const [layout, setLayout] = useState<{x: number, y: number}>({x: 0, y: 0});
   const targetRef = React.useRef<View>(null);
   const lastSelectedRef = React.useRef<string>('');
@@ -87,15 +80,8 @@ const Grid = () => {
     targetRef.current?.measure((x: number, y: number) => {
       setLayout({x, y});
     });
-  }, []); //dependencies are what it re-runs on when dependency changes
+  }, []);
   
-  //function getLetFromPos(x: number, y: number):  {}
-  //naming convention?
-  //i have to somehow turn off just tappping it or make a gesture for just a tap
-  //will also have to fix diagnoals, maybe just make the hitboxes smaller
-  //or change the shape of hitboxes to not be square - or interpret pan direction
-  //can maybe fix logic with just math
-  // NOTE: numbers and positining is a little off, sometimes when clicking a button it gets the letter of the one under it
   const panningButtons = (currentX: number, currentY: number) => {
     const relX = currentX - layout.x;
     const relY = currentY - layout.y; 
@@ -133,8 +119,6 @@ const Grid = () => {
       }
     }
   };
-  //function handlePressIn(x: number, y: number) {}
-
   
   const panGesture = Gesture.Pan()
     .onBegin((e) => {
@@ -143,7 +127,6 @@ const Grid = () => {
       const relY = e.absoluteY - layout.y; 
       for(let i = 0; i<5; i++){
         for(let j = 0; j<5; j++){
-          //fix
           if(50*i+20 < relY && relY < 50*i+50+20 && 50*j+20 < relX && relX < 50*j+50+20){
             setWord(board[i]![j]!);
             lastSelectedRef.current = `${i}-${j}`;
@@ -173,7 +156,6 @@ const Grid = () => {
       setIsWord(false);
     });
 
-  //what did safeareaprovider do again and does it break it lol
   return (
     <View style={styles.listGridWrapper}>
       <View style={styles.wordListWrapper}>
@@ -214,30 +196,18 @@ const Grid = () => {
         ))}
       </View>
       </GestureDetector>
-      {/* This is a comment 
-      <Text>{layout.x}</Text>
-      <Text>{layout.y}</Text>
-      <Text>{posx}</Text>
-      <Text>{posy}</Text>
-      <Text>Current Word: {word}</Text>
-      */}
       <Text style={styles.score}>Score: {score}</Text>
     </View>
     </View>
   );
 };
 
-
-export default function HomeScreen() {
-  const router = useRouter();
+export default function GameScreen() {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Button
-        title="Start Game"
-        onPress={() => router.push('/game')}
-      />
-    </View>
-  )
+    <View style={{flex: 1}}>
+      <Grid/>
+    </View> 
+  );
 }
 
 const styles = StyleSheet.create({
@@ -301,7 +271,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textDecorationLine: 'underline',
-    textDecorationStyle: 'solid', //or do bottom border
+    textDecorationStyle: 'solid',
     fontWeight: '700',
     marginBottom: 3,
   },
@@ -335,7 +305,6 @@ const styles = StyleSheet.create({
   gridWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor: '#54a710',
   }, 
   titleText: {
     fontSize: 24,
@@ -345,9 +314,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
-
-
-
-
-
-

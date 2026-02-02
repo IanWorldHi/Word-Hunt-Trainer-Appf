@@ -105,6 +105,9 @@ export class TrieNode {
         if(used.includes(word)){
             return false;
         }
+        if(word.length <3){
+            return false;
+        }
         let t2: TrieNode = this;
         for(let i = 0; i<word.length; i++){
             if(t2.children.has(word.charAt(i))){
