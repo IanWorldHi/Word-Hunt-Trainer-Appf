@@ -87,7 +87,7 @@ const Grid = () => {
     if(timer>=80){
       router.replace(`/results?score=${score}`);
     }
-  }, [timer]);
+  }, [timer, score]);
 
   const handlePanStart = (e: any) => {
     setPosx(e.absoluteX); 

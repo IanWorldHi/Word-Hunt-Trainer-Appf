@@ -3,18 +3,7 @@
 import words from './words_dictionary.json';
 const lines: string[] = Object.keys(words);
 
-/*
-let words: any = null;
-let lines: string[] = [];
-
-function loadWords() {
-  if (!words) {
-    words = require('./words_dictionary.json');
-    lines = Object.keys(words);
-  }
-}
-*/
-
+//import trieJson from './preBuiltTrie.json';
 
 // this is node.js wont work
 //gotta fix the file reading, modules etc
@@ -135,13 +124,21 @@ export class TrieNode {
     }
 }
 
+
 export function build_trie(): TrieNode{
     let root: TrieNode = new TrieNode('');
     for (let line of lines) {
         root.insert_word(line.trim());
     }
     return root;
-}
+} 
+
+/* export function jsonToTrie(): TrieNode{
+    let root: TrieNode = new TrieNode('');
+    for(let i = 0; i<trieJson["children"].length; i++){
+
+    }
+} */
 
 export function make_rand_board(size: number): string[][] {
     let board: string[][] = [];
