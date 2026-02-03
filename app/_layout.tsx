@@ -1,6 +1,7 @@
 import { Stack, useRouter } from "expo-router";
 import {Button, Text, View, StyleSheet, Pressable} from 'react-native'; 
 
+// Header Customization for Screens
 export default function RootLayout() {
   const router = useRouter();
   return (
