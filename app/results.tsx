@@ -7,7 +7,7 @@ import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-ges
 //figure out where we build the trie and how to cache it
 //clean up dependencies
 
-
+//Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
   const router = useRouter();
   const { score } = useLocalSearchParams(); 
