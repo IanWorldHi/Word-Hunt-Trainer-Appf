@@ -4,11 +4,7 @@ import {Button, Text, View, StyleSheet, Pressable} from 'react-native';
 export default function RootLayout() {
   const router = useRouter();
   return (
-    <Stack screenOptions={{
-      headerStyle: {
-        height: 100,
-      },
-      }}>
+    <Stack screenOptions={{}}>
       <Stack.Screen name="index" options={{
         headerShown: true,
         headerStyle: {
