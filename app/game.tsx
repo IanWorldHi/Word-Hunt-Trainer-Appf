@@ -6,25 +6,11 @@ import { router, useRouter } from 'expo-router';
 
 const trie: TrieNode = build_trie();
 
-/*
-const Timer = () => {
-  const [timer, setTimer] = useState<number>(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer(preTimer => preTimer + 1); 
-    }, 1000)
-    return () => clearInterval(interval);
-  }, [])
-  return (
-    <Text>Time: {timer}</Text>
-  )
-}
-*/
-
 type TimerProps = {
   timer: number;
 }
 
+//Timer
 const Timer = (props: TimerProps) => {
   return (
     <Text>Time: {props.timer}</Text>
@@ -36,6 +22,7 @@ type wordListProps = {
   usedWords: string[];
 }
 
+//Wordlist of best scoring words minus all the words already scored
 const WordList = (props: wordListProps) => {
   const [wordList, setWordList] = useState<string[]>(trie.solve_board(props.board, 5).flat().reverse()); 
   const filteredWords = wordList.filter(word => !props.usedWords.includes(word)).slice(0, 20);
@@ -58,6 +45,7 @@ type letProp = {
   style?: any;
 };
 
+//Component for each individual letter tile - includes styled pressable
 const LetterBox = (props: letProp) => {
   return (
     <Pressable
@@ -72,6 +60,8 @@ const LetterBox = (props: letProp) => {
   );
 };
 
+//Core logic for displaying the grid of letters as well as managing gestures and their outcomes 
+// (selecting letterBoxs, scoring, valid gestures, turning green/orange for valid/repeated words)
 const Grid = () => {
   const [isSelected, setIsSelected] = useState<boolean[][]>(new Array(5).fill(new Array(5).fill(false)));
   const [board, setBoard] = useState<string[][]>(make_rand_board(5));
