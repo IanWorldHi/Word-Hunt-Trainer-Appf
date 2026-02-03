@@ -76,19 +76,20 @@ const Grid = () => {
   const [isWord, setIsWord] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(0);
 
+  //Timer logic
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer(preTimer => preTimer + 1); 
     }, 1000)
     return () => clearInterval(interval);
   }, []);
-
   useEffect(() => {
     if(timer>=80){
       router.replace(`/results?score=${score}`);
     }
   }, [timer, score]);
 
+  //Finds position of user's touch
   const handlePanStart = (e: any) => {
     setPosx(e.absoluteX); 
     setPosy(e.absoluteY);
@@ -98,7 +99,9 @@ const Grid = () => {
       setLayout({x, y});
     });
   }, []);
-  
+
+  //Logic for tracking touch compartive to the grid and processing inputs, selects buttons, process valid moves and 
+  //processes checkers for valid/used words
   const panningButtons = (currentX: number, currentY: number) => {
     const relX = currentX - layout.x;
     const relY = currentY - layout.y; 
@@ -136,7 +139,8 @@ const Grid = () => {
       }
     }
   };
-  
+
+  //On begin/update/end logic for panning gesture (the user selecting/swiping tiles)
   const panGesture = Gesture.Pan()
     .onBegin((e) => {
       handlePanStart(e);
@@ -173,6 +177,7 @@ const Grid = () => {
       setIsWord(false);
     });
 
+  //Output formating in grid format
   return (
     <View style={styles.listGridWrapper}>
       <View style={styles.wordListWrapper}>
@@ -219,6 +224,7 @@ const Grid = () => {
   );
 };
 
+//Wrapper for grid in case of additional styling needs
 export default function GameScreen() {
   return (
     <View style={{flex: 1}}>
