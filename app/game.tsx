@@ -13,7 +13,7 @@ type TimerProps = {
 //Timer
 const Timer = (props: TimerProps) => {
   return (
-    <Text>Time: {props.timer}</Text>
+    <Text style={styles.timerText}>Time: {props.timer}</Text>
   )
 }
 
@@ -276,6 +276,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor : '#2e34a4000',
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   listGridWrapper: {
     flexDirection: 'row',
@@ -329,5 +331,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
     textAlign: 'center',
+  },
+  timerText: {
+    fontSize: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: '500',
+    marginBottom: 2,
   }
 });
