@@ -1,5 +1,70 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import {Button, Text, View, StyleSheet, Pressable} from 'react-native'; 
 
 export default function RootLayout() {
-  return <Stack />;
+  const router = useRouter();
+  return (
+    <Stack screenOptions={{
+      headerStyle: {
+        height: 100,
+      },
+      }}>
+      <Stack.Screen name="index" options={{
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#537acd',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: '600',
+          fontSize: 24,
+        },
+        headerTitle: "WordHunt Trainer",
+      }}
+      />
+      <Stack.Screen name="game" options={{
+        headerTitle: "",
+        headerStyle: {
+          backgroundColor: '#2f943fb8',
+        },
+        headerLeft: () => (
+          <Pressable onPress={() => router.back()} style={styles.exitButton}>
+            <Text style={styles.exitButtonText}>Exit</Text>
+          </Pressable>
+        ),
+      }}
+      />
+    </Stack>
+  );
 }
+
+
+const styles = StyleSheet.create({
+  exitButton: {
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#c4173d',
+    borderWidth: 2,
+    width: 80,
+    height: 40,
+    borderColor: 'black',
+    borderRadius: 5,
+    marginLeft: 15,
+  },
+  exitButtonText: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 600,
+    justifyContent: 'center', 
+    alignItems: 'center',
+  },
+});
+
+
+
+
+
+
+
+
+

@@ -8,7 +8,7 @@ import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-ges
 //clean up dependencies
 
 
-export default function HomeScreen() {
+export default function ResultsScreen() {
   const router = useRouter();
   return (
     <View style={styles.homeView}>
