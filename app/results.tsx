@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useEffect, useState} from 'react'; 
 import {Button, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {useRouter} from 'expo-router';
+import { useLocalSearchParams, useRouter} from 'expo-router';
 import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wordhunallg';
 import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
 //figure out where we build the trie and how to cache it
@@ -10,27 +10,34 @@ import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-ges
 
 export default function ResultsScreen() {
   const router = useRouter();
+  const { score } = useLocalSearchParams(); 
   return (
-    <View style={styles.homeView}>
-      <Text style={styles.homeText}>Welcome to my WordHunt Trainer!</Text>
+    <View style={styles.resultView}>
+      <Text style={styles.resultText}>Score: {score}</Text>
       <Pressable 
-        style={styles.homeButton}
+        style={styles.resultButton}
         onPress={() => router.push('/game')}
       >
-        <Text style={styles.homeButtonText}>Start Game</Text>
+        <Text style={styles.resultButtonText}>Play Again</Text>
       </Pressable>
-      <Text style={styles.home2Text}>Are you read to get better at WordHunt to beat your friends?</Text>
+      <Pressable
+        style={[styles.resultButton, styles.resultButton2]}
+        onPress={() => router.push('/')}
+      >
+        <Text style={styles.resultButtonText}>Return Home</Text>
+      </Pressable>
+      <Text style={styles.result2Text}>Are you read to get better at WordHunt to beat your friends?</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  homeView: {
+  resultView: {
     flex: 1, 
     justifyContent: 'center', 
     alignItems: 'center'
   },
-  homeButton: {
+  resultButton: {
     justifyContent: 'center', 
     alignItems: 'center',
     backgroundColor: '#537acd',
@@ -39,15 +46,19 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: 'black',
     borderRadius: 5,
+    marginBottom: 15,
   },
-  homeButtonText: {
+  resultButton2: {
+
+  },
+  resultButtonText: {
     fontSize: 20,
     color: 'white',
     fontWeight: 600,
     justifyContent: 'center', 
     alignItems: 'center',
   },
-  homeText: {
+  resultText: {
     fontSize: 32,
     color: 'black',
     fontWeight: 600,
@@ -55,15 +66,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 28,
   },
-  home2Text: {
+  result2Text: {
     fontSize: 15,
     color: 'black',
     fontWeight: 400,
     justifyContent: 'center', 
     alignItems: 'center',
-    marginTop: 17,
+    marginTop: 0,
   },
-  homeBackGround: {
+  resultBackground: {
 
   }
 });

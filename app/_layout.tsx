@@ -30,6 +30,19 @@ export default function RootLayout() {
         ),
       }}
       />
+      <Stack.Screen name="results" options={{
+        headerTitle: "Results",
+        headerStyle: {
+          backgroundColor: '#2f943fb8',
+        },
+        headerShown: true,
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: '600',
+          fontSize: 24,
+        },
+      }}
+      />
     </Stack>
   );
 }

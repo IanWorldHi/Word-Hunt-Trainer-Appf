@@ -2,9 +2,11 @@ import React, {useLayoutEffect, useEffect, useState} from 'react';
 import {Button, Text, View, StyleSheet, Pressable} from 'react-native';
 import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wordhunallg';
 import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
+import { router, useRouter } from 'expo-router';
 
 const trie: TrieNode = build_trie();
 
+/*
 const Timer = () => {
   const [timer, setTimer] = useState<number>(0);
   useEffect(() => {
@@ -15,6 +17,17 @@ const Timer = () => {
   }, [])
   return (
     <Text>Time: {timer}</Text>
+  )
+}
+*/
+
+type TimerProps = {
+  timer: number;
+}
+
+const Timer = (props: TimerProps) => {
+  return (
+    <Text>Time: {props.timer}</Text>
   )
 }
 
@@ -71,6 +84,20 @@ const Grid = () => {
   const [usedWords, setUsedWords] = useState<string[]>([]);
   const [score, setScore] = useState<number>(0);
   const [isWord, setIsWord] = useState<boolean>(false);
+  const [timer, setTimer] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer(preTimer => preTimer + 1); 
+    }, 1000)
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if(timer>=80){
+      router.replace(`/results?score=${score}`);
+    }
+  }, [timer]);
 
   const handlePanStart = (e: any) => {
     setPosx(e.absoluteX); 
@@ -160,7 +187,7 @@ const Grid = () => {
     <View style={styles.listGridWrapper}>
       <View style={styles.wordListWrapper}>
         <Text style={styles.wordListTitle}>Word List</Text>
-        <Timer/>
+        <Timer timer={timer}/>
         <WordList board={board} usedWords={usedWords}/>
       </View>
     <View style={styles.gridWrapper}>
