@@ -104,15 +104,25 @@ const Grid = () => {
     });
   }, []);
   
+  const TILESIZE = 58;
+  const TILEMARGIN = 4;
+  const TILEBTW = TILESIZE + 2 * TILEMARGIN;
+  const GRIDPAD = 10;
+  const HITPAD = 6; 
   const panningButtons = (currentX: number, currentY: number) => {
     const relX = currentX - layout.x;
     const relY = currentY - layout.y; 
     
     for(let i = 0; i<5; i++){
       for(let j = 0; j<5; j++){
-        if(!isSelected[i]![j]! && 58*i+19+2 < relY && relY < 58*i+58+19+8-2 && 58*j+19+2 < relX && relX < 58*j+58+19+8-2){
+        const ty1 = GRIDPAD + i*TILEBTW;
+        const ty2 = ty1 + TILESIZE;
+        const tx1 = GRIDPAD + j*TILEBTW;
+        const tx2 = tx1 + TILESIZE;
+        if(!isSelected[i]![j]! &&  ty1 + HITPAD < relY && relY < ty2 - HITPAD && tx1 + HITPAD < relX && relX < tx2 - HITPAD){
           const buttonKey = `${i}-${j}`;
           if(lastSelectedRef.current === buttonKey){ return;}
+          //Now I realise I could have done this a lot faster with just math
           if((parseInt(lastSelectedRef.current[0]) === i-1 && parseInt(lastSelectedRef.current[2]) === j) 
             || (parseInt(lastSelectedRef.current[0]) === i && parseInt(lastSelectedRef.current[2]) === j-1) 
             || (parseInt(lastSelectedRef.current[0]) === i+1 && parseInt(lastSelectedRef.current[2]) === j) 
@@ -150,7 +160,11 @@ const Grid = () => {
       const relY = e.absoluteY - layout.y; 
       for(let i = 0; i<5; i++){
         for(let j = 0; j<5; j++){
-          if(58*i+19+8+3 < relY && relY < 58*i+58+19+8-3 && 58*j+19+8+3 < relX && relX < 58*j+58+19+8-3){
+          const ty1 = GRIDPAD + i*TILEBTW;
+          const ty2 = ty1 + TILESIZE;
+          const tx1 = GRIDPAD + j*TILEBTW;
+          const tx2 = tx1 + TILESIZE;
+          if(ty1 + HITPAD < relY && relY < ty2 - HITPAD && tx1 + HITPAD < relX && relX < tx2 - HITPAD){
             setWord(board[i]![j]!);
             lastSelectedRef.current = `${i}-${j}`;
             setIsSelected(prev => {
