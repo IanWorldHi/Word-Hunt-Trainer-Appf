@@ -4,6 +4,7 @@ import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wo
 import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
 import { router } from 'expo-router';
 
+//Should normally import components but becuase it is not a super large app I am keeping it all in one file for ease of access
 
 const trie: TrieNode = build_trie();
 
