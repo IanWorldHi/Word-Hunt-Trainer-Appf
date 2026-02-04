@@ -7,7 +7,7 @@ import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-ges
 //figure out where we build the trie and how to cache it
 //clean up dependencies
 
-
+//Home Screen formatted with router to game screen
 export default function HomeScreen() {
   const router = useRouter();
   return (

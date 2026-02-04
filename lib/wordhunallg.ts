@@ -1,5 +1,6 @@
 import { File, Directory, Paths } from 'expo-file-system';
 // fix modules
+// check type practice/standards for typescript
 //import * as fs from 'fs';
 import words from './preBuiltTrie.json';
 
@@ -13,6 +14,8 @@ import words from './preBuiltTrie.json';
 
 // Need a function to manage check words when user is swiping
 // figure out tsx modules or wtv
+
+//TrideNode for Prefix tree containing all valid words
 export class TrieNode {
     public text: string;
     public children: Map<string, TrieNode>;
@@ -25,6 +28,7 @@ export class TrieNode {
     /* toString(): string {
         return `${this.children}`;
     } */
+    // Inserting valid word into the Trie
     public insert_word(word: string): void {
         let cha: string;
         let this2: TrieNode = this;
@@ -37,8 +41,9 @@ export class TrieNode {
         }
         this2.isWord = true;
     }
+    
+    //Finding all valid words starting with a certain letter in the board
     private word_finder(board: string[][], visited: boolean[][], words: string[][], x: number, y: number, lent: number, size: number): string[][] {
-        // dunno if this is best/solid practice
         visited[x]![y] = true;
         if(lent-2 > words.length){
             words.push([]);
@@ -108,6 +113,8 @@ export class TrieNode {
         }
         return t2.isWord;
     }
+
+    //Finding all valid words in a board
     public solve_board(board: string[][], size: number): string[][] {
         let result: string[][] = [];
         let visited: boolean[][];
@@ -161,12 +168,14 @@ export function make_rand_board(size: number): string[][] {
     return board;
 }
 
+// Random letter generator
 function rand_word_gen(): string {
     const letters: string = 'abcdefghijklmnopqrstuvwxyz';
     const randInt: number = Math.floor(Math.random()*letters.length);
     return letters.charAt(randInt);
 }
 
+// Calculates points according to word length
 export function calculate_points(word: string): number {
     if(word.length <3){
         return 0;        

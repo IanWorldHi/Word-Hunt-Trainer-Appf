@@ -82,31 +82,28 @@ const Grid = () => {
   const [isWord, setIsWord] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(0);
 
+  //Timer logic
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer(preTimer => preTimer + 1); 
     }, 1000)
     return () => clearInterval(interval);
   }, []);
-
   useEffect(() => {
     if(timer>=80){
       router.replace(`/results?score=${score}`);
     }
   }, [timer, score]);
 
-  /* const handlePanStart = (e: any) => {
+  const handlePanStart = (e: any) => {
     setPosx(e.absoluteX); 
     setPosy(e.absoluteY);
-  } */
- /*  useLayoutEffect(() => {
-    const timer = setTimeout(() => {
-      targetRef.current?.measure((x, y, width, height, pageX, pageY) => {
-        setLayout({x: pageX, y: pageY});
-      });
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []); */
+  }
+  useLayoutEffect(() => {
+    targetRef.current?.measure((x: number, y: number) => {
+      setLayout({x, y});
+    });
+  }, []);
   
   const panningButtons = (currentX: number, currentY: number) => {
     const relX = currentX - layout.x;
@@ -146,39 +143,6 @@ const Grid = () => {
     }
   };
   
-  /* const tapGesture = Gesture.Tap()
-    .onBegin((e) => {
-      const relX = e.absoluteX - layout.x;
-      const relY = e.absoluteY - layout.y; 
-      for(let i = 0; i<5; i++){
-        for(let j = 0; j<5; j++){
-          if(50*i+20 < relY && relY < 50*i+50+20 && 50*j+20 < relX && relX < 50*j+50+20){
-            setWord(board[i]![j]!);
-            lastSelectedRef.current = `${i}-${j}`;
-            setIsSelected(prev => {
-              const newSelected = prev.map(r => r.slice());
-              newSelected[i]![j]! = true;
-              return newSelected;
-            });
-          }
-        }
-      }
-  }); 
-    .onEnd((e) => {
-      for(let i = 0; i<5; i++){
-          for(let j = 0; j<5; j++){
-            if(50*i+20 < relY && relY < 50*i+50+20 && 50*j+20 < relX && relX < 50*j+50+20){
-              setIsSelected(prev => {
-                const newSelected = prev.map(r => r.slice());
-                newSelected[i]![j]! = false;
-                return newSelected;
-              });
-            }
-          }
-        }
-    });
-  */
-
   const panGesture = Gesture.Pan()
     .minDistance(1)
     .runOnJS(true)
@@ -229,7 +193,6 @@ const Grid = () => {
       setIsWord(false);
     });
 
-  //const composed = Gesture.Exclusive(panGesture, tapGesture);
   return (
     <View style={styles.listGridWrapper}>
       <Text style={styles.titleText}>Word Hunt</Text>
@@ -273,6 +236,7 @@ const Grid = () => {
   );
 };
 
+//Wrapper for grid in case of additional styling needs
 export default function GameScreen() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
