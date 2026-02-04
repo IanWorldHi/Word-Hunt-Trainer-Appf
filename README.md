@@ -5,7 +5,7 @@ It creates a replica of the popular WordHunt game from iphone's GamePigeon and h
 
 
 <p align="center">
-  <img src="assets/Animation.gif" width="400" alt="Demo">
+  <img src="assets/Animation.gif" width="700" alt="Demo">
 </p>
 
 
