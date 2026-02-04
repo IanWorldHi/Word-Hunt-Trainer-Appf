@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center',
     marginBottom: 28,
+    textAlign: 'center',
+    width: '70%',
+    alignSelf: 'center',
+    flexWrap: 'wrap',
   },
   home2Text: {
     fontSize: 15,
@@ -62,6 +66,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center',
     marginTop: 17,
+    textAlign: 'center',
+    width: '70%',
+    alignSelf: 'center',
+    flexWrap: 'wrap',
   },
   homeBackGround: {
 

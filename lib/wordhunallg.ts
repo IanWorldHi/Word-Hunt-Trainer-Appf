@@ -1,9 +1,9 @@
+import { File, Directory, Paths } from 'expo-file-system';
 // fix modules
 //import * as fs from 'fs';
-import words from './words_dictionary.json';
-const lines: string[] = Object.keys(words);
+import words from './preBuiltTrie.json';
 
-//import trieJson from './preBuiltTrie.json';
+
 
 // this is node.js wont work
 //gotta fix the file reading, modules etc
@@ -124,20 +124,30 @@ export class TrieNode {
     }
 }
 
+export function jsonToTrie(jsond: any, txt: string = '', wordIs: boolean = false): TrieNode {
+    let root = new TrieNode(txt);
+    root.isWord = wordIs;
+    if(jsond.c) {
+        for (const [key, value] of Object.entries(jsond.c)) {
+            const isWord: boolean = (key === key.toUpperCase());
+            root.children.set(key.toLowerCase(), jsonToTrie(value, txt + key.toLowerCase(), isWord));
+        }
+    }
+    return root;
+}
 
+export function build_trie(): TrieNode{
+    let root: TrieNode = jsonToTrie(words);
+    return root;
+}
+
+/* 
 export function build_trie(): TrieNode{
     let root: TrieNode = new TrieNode('');
     for (let line of lines) {
         root.insert_word(line.trim());
     }
     return root;
-} 
-
-/* export function jsonToTrie(): TrieNode{
-    let root: TrieNode = new TrieNode('');
-    for(let i = 0; i<trieJson["children"].length; i++){
-
-    }
 } */
 
 export function make_rand_board(size: number): string[][] {

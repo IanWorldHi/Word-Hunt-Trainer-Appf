@@ -73,6 +73,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center',
     marginTop: 0,
+    textAlign: 'center',
+    width: '70%',
+    alignSelf: 'center',
+    flexWrap: 'wrap',
   },
   resultBackground: {
 
