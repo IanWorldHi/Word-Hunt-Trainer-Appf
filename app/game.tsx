@@ -1,9 +1,8 @@
 import React, {useLayoutEffect, useEffect, useState} from 'react'; 
-import {Button, Text, View, StyleSheet, Pressable} from 'react-native';
+import {Text, View, StyleSheet, Pressable} from 'react-native';
 import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wordhunallg';
 import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
-import { router, useRouter } from 'expo-router';
-import { scheduleOnRN } from 'react-native-worklets';
+import { router } from 'expo-router';
 
 
 const trie: TrieNode = build_trie();
