@@ -4,7 +4,9 @@ This is an project made wwith react Native, typescript and Expo](https://expo.de
 It creates a replica of the popular WordHunt game from iphone's GamePigeon and has a board solver to display the highest possible scoring words updated in real time to train pattern recognition for the user. 
 
 
-<img src="assets/Animation.gif" width="400">
+<p align="center">
+  <img src="assets/Animation.gif" width="400" alt="Demo">
+</p>
 
 
 ## Running the app for yourself!
