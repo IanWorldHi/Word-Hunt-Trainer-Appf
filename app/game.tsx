@@ -109,6 +109,8 @@ const Grid = () => {
   const TILEBTW = TILESIZE + 2 * TILEMARGIN;
   const GRIDPAD = 10;
   const HITPAD = 6; 
+
+  //Function logic to handle panning over buttons and selecting valid ones then adding to current word
   const panningButtons = (currentX: number, currentY: number) => {
     const relX = currentX - layout.x;
     const relY = currentY - layout.y; 
@@ -152,7 +154,7 @@ const Grid = () => {
     }
   };
   
-
+  //Pan gesture handling for on tap and panning over letters and scoring/checking words
   const panGesture = Gesture.Pan()
     .runOnJS(true)
     .onBegin((e) => {
