@@ -1,11 +1,6 @@
-import React, {useLayoutEffect, useEffect, useState} from 'react'; 
-import {Button, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import React from 'react'; 
+import {Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import { useLocalSearchParams, useRouter} from 'expo-router';
-import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wordhunallg';
-import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
-//figure out where we build the trie and how to cache it
-//clean up dependencies
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {

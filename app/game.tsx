@@ -143,18 +143,11 @@ const Grid = () => {
     }
   };
   
+  
   const panGesture = Gesture.Pan()
     .minDistance(1)
     .runOnJS(true)
     .onStart((e) => {
-      /* console.log('Pan begin:', {
-        absoluteX: e.absoluteX,
-        absoluteY: e.absoluteY,
-        layout: layout,
-        relX: e.absoluteX - layout?.x,
-        relY: e.absoluteY - layout?.y,
-    }); */
-      /* handlePanStart(e); */
       const relX = e.absoluteX - layout.x;
       const relY = e.absoluteY - layout.y; 
       for(let i = 0; i<5; i++){
@@ -191,7 +184,7 @@ const Grid = () => {
       });
       setWord('');
       setIsWord(false);
-    });
+    })
 
   return (
     <View style={styles.listGridWrapper}>

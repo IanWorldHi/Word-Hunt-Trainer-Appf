@@ -1,21 +1,5 @@
-import { File, Directory, Paths } from 'expo-file-system';
-// fix modules
-// check type practice/standards for typescript
-//import * as fs from 'fs';
 import words from './preBuiltTrie.json';
 
-
-
-// this is node.js wont work
-//gotta fix the file reading, modules etc
-//const filePath: string = 'app/words_alpha.txt';
-//const contents: string = fs.readFileSync(filePath, 'utf-8'); //for node.js
-//const lines: string[] = contents.split('\n');
-
-// Need a function to manage check words when user is swiping
-// figure out tsx modules or wtv
-
-//TrideNode for Prefix tree containing all valid words
 export class TrieNode {
     public text: string;
     public children: Map<string, TrieNode>;
@@ -25,9 +9,6 @@ export class TrieNode {
         this.isWord = isWord;
         this.children = new Map<string, TrieNode>();
     }
-    /* toString(): string {
-        return `${this.children}`;
-    } */
     // Inserting valid word into the Trie
     public insert_word(word: string): void {
         let cha: string;
@@ -143,20 +124,13 @@ export function jsonToTrie(jsond: any, txt: string = '', wordIs: boolean = false
     return root;
 }
 
+// Building the Trie from the word list
 export function build_trie(): TrieNode{
     let root: TrieNode = jsonToTrie(words);
     return root;
 }
 
-/* 
-export function build_trie(): TrieNode{
-    let root: TrieNode = new TrieNode('');
-    for (let line of lines) {
-        root.insert_word(line.trim());
-    }
-    return root;
-} */
-
+// Generating a random board of given size
 export function make_rand_board(size: number): string[][] {
     let board: string[][] = [];
     for (let i = 0; i < size; i++) {

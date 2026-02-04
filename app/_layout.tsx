@@ -1,5 +1,5 @@
 import { Stack, useRouter } from "expo-router";
-import {Button, Text, View, StyleSheet, Pressable} from 'react-native'; 
+import { Text, StyleSheet, Pressable} from 'react-native'; 
 
 // Header Customization for Screens
 //Make it so that not every result gets turned into a new layer and get rid of the back button in result screen AND homescreen
