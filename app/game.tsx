@@ -110,7 +110,7 @@ const Grid = () => {
     
     for(let i = 0; i<5; i++){
       for(let j = 0; j<5; j++){
-        if(!isSelected[i]![j]! && 58*i+19+8+3 < relY && relY < 58*i+58+19+8-3 && 58*j+19+8+3 < relX && relX < 58*j+58+19+8-3){
+        if(!isSelected[i]![j]! && 58*i+19+2 < relY && relY < 58*i+58+19+8-2 && 58*j+19+2 < relX && relX < 58*j+58+19+8-2){
           const buttonKey = `${i}-${j}`;
           if(lastSelectedRef.current === buttonKey){ return;}
           if((parseInt(lastSelectedRef.current[0]) === i-1 && parseInt(lastSelectedRef.current[2]) === j) 
@@ -142,21 +142,15 @@ const Grid = () => {
     }
   };
   
-  
+
   const panGesture = Gesture.Pan()
-    .minDistance(1)
     .runOnJS(true)
-    .onStart((e) => {
+    .onBegin((e) => {
       const relX = e.absoluteX - layout.x;
       const relY = e.absoluteY - layout.y; 
       for(let i = 0; i<5; i++){
         for(let j = 0; j<5; j++){
-          if(58*i+19 < relY && relY < 58*i+58+19+8 && 58*j+19 < relX && relX < 58*j+58+19+8
-            && !(relY > 58*i+58+19+8-5 && relX > 58*j+58+19+8-5) 
-            && !(relY < 58*i+19+5 && relX < 58*j+19+5)
-            && !(relY > 58*i+58+19+8-5 && relX < 58*j+19+5)
-            && !(relY < 58*i+19+5 && relX > 58*j+58+19+8-5)
-          ){
+          if(58*i+19+8+3 < relY && relY < 58*i+58+19+8-3 && 58*j+19+8+3 < relX && relX < 58*j+58+19+8-3){
             setWord(board[i]![j]!);
             lastSelectedRef.current = `${i}-${j}`;
             setIsSelected(prev => {
@@ -171,7 +165,7 @@ const Grid = () => {
     .onUpdate((e) => {
       panningButtons(e.absoluteX, e.absoluteY);
     })
-    .onEnd((e) => {
+    .onFinalize((e) => {
       if(trie.isitWord(word, usedWords)){
         setUsedWords(prev => [...prev, word]);
         setScore(prev => prev + calculate_points(word));
@@ -246,11 +240,11 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#c79a20',
+    backgroundColor: '#e4b83f',
     width: 58,
     height: 58,
     borderWidth: 3,
-    borderColor: 'black',
+    borderColor: '#767676',
     borderRadius: 10,
     margin: 4,
   },
@@ -261,7 +255,7 @@ const styles = StyleSheet.create({
     width: 58,
     height: 58,
     borderWidth: 3,
-    borderColor: 'black',
+    borderColor: '#767676',
     borderRadius: 10,
     margin: 4,
   },
@@ -313,9 +307,9 @@ const styles = StyleSheet.create({
   letterText: {
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 18,
-    fontWeight: '600',
-    color: 'white',
+    fontSize: 30,
+    fontWeight: '700',
+    color: 'black',
   },
   letterTextSelected: {
     color: 'black',
@@ -324,11 +318,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 350,
-    height: 350,
+    width: 360,
+    height: 360,
     borderWidth: 5,
-    borderColor: 'black',
-    backgroundColor: '#888888',
+    borderColor: '#black',
+    backgroundColor: '#3e6223',
     padding: 10,
     borderRadius: 10,
   },
