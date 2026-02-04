@@ -110,7 +110,7 @@ const Grid = () => {
     
     for(let i = 0; i<5; i++){
       for(let j = 0; j<5; j++){
-        if(!isSelected[i]![j]! && 53*i+20+5 < relY && relY < 53*i+53+20-5 && 53*j+20+5 < relX && relX < 53*j+53+20-5){
+        if(!isSelected[i]![j]! && 58*i+19+8+3 < relY && relY < 58*i+58+19+8-3 && 58*j+19+8+3 < relX && relX < 58*j+58+19+8-3){
           const buttonKey = `${i}-${j}`;
           if(lastSelectedRef.current === buttonKey){ return;}
           if((parseInt(lastSelectedRef.current[0]) === i-1 && parseInt(lastSelectedRef.current[2]) === j) 
@@ -151,7 +151,12 @@ const Grid = () => {
       const relY = e.absoluteY - layout.y; 
       for(let i = 0; i<5; i++){
         for(let j = 0; j<5; j++){
-          if(50*i+20 < relY && relY < 50*i+50+20 && 50*j+20 < relX && relX < 50*j+50+20){
+          if(58*i+19 < relY && relY < 58*i+58+19+8 && 58*j+19 < relX && relX < 58*j+58+19+8
+            && !(relY > 58*i+58+19+8-5 && relX > 58*j+58+19+8-5) 
+            && !(relY < 58*i+19+5 && relX < 58*j+19+5)
+            && !(relY > 58*i+58+19+8-5 && relX < 58*j+19+5)
+            && !(relY < 58*i+19+5 && relX > 58*j+58+19+8-5)
+          ){
             setWord(board[i]![j]!);
             lastSelectedRef.current = `${i}-${j}`;
             setIsSelected(prev => {
@@ -242,23 +247,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#c79a20',
-    width: 50,
-    height: 50,
-    borderWidth: 1,
+    width: 58,
+    height: 58,
+    borderWidth: 3,
     borderColor: 'black',
-    borderRadius: 5,
-    margin: 2,
+    borderRadius: 10,
+    margin: 4,
   },
   selected: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#DDDDDD',
-    width: 50,
-    height: 50,
-    borderWidth: 1,
+    width: 58,
+    height: 58,
+    borderWidth: 3,
     borderColor: 'black',
-    borderRadius: 5,
-    margin: 2,
+    borderRadius: 10,
+    margin: 4,
   },
   selectedCorrect: {
     backgroundColor: 'green',
@@ -319,8 +324,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 350,
     borderWidth: 5,
     borderColor: 'black',
     backgroundColor: '#888888',

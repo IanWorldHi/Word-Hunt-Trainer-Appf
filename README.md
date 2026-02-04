@@ -3,7 +3,7 @@
 This is an project made wwith react Native, typescript and Expo](https://expo.dev) 
 It creates a replica of the WordHunt game from iphone's GamePigeon and has a board solver to display the highest possible scoring words in order to train pattern recognition for the user. 
 
-## Get started
+## Running the app for yourself!
 
 1. Install dependencies
 
@@ -16,6 +16,8 @@ It creates a replica of the WordHunt game from iphone's GamePigeon and has a boa
    ```bash
    npx expo start
    ```
+
+## Developement and Production Build Options:
 
 In the output, you'll find options to open the app in a
 
