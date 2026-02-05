@@ -20,5 +20,6 @@ It creates a replica of the popular WordHunt game from iphone's GamePigeon and h
    ```
 
 
+<!-- Future Improvement: Haptic feedback, animation, remove stacking screens -->
 
 
