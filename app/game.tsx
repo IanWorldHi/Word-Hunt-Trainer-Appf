@@ -70,6 +70,7 @@ const Grid = () => {
   const [isSelected, setIsSelected] = useState<boolean[][]>(
     Array.from({ length: 5 }, () => Array(5).fill(false))
   );
+  //Some cleaning up/unused vars
   const [board, setBoard] = useState<string[][]>(make_rand_board(5));
   const [posx, setPosx] = useState<number>(0);
   const [posy, setPosy] = useState<number>(0);
