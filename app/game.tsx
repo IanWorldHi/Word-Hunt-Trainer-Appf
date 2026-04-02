@@ -65,6 +65,13 @@ const LetterBox = (props: letProp) => {
   );
 };
 
+const hapticSoft = () => {
+  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+};
+const hapticHeavy = () => { 
+  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
+};
+
 //Core logic for displaying the grid of letters as well as managing gestures and their outcomes 
 // (selecting letterBoxs, scoring, valid gestures, turning green/orange for valid/repeated words)
 const Grid = () => {
@@ -137,6 +144,7 @@ const Grid = () => {
             || (parseInt(lastSelectedRef.current[0]) === i-1 && parseInt(lastSelectedRef.current[2]) === j+1) 
             || (parseInt(lastSelectedRef.current[0]) === i+1 && parseInt(lastSelectedRef.current[2]) === j-1)){
             lastSelectedRef.current = buttonKey;
+            hapticSoft();
             setIsSelected(prev => {
               const newSelected = prev.map(r => r.slice());
               newSelected[i]![j]! = !newSelected[i]![j]!;
@@ -161,6 +169,7 @@ const Grid = () => {
   const panGesture = Gesture.Pan()
     .runOnJS(true)
     .onBegin((e) => {
+      hapticSoft();
       const relX = e.absoluteX - layout.x;
       const relY = e.absoluteY - layout.y; 
       for(let i = 0; i<5; i++){
@@ -188,6 +197,7 @@ const Grid = () => {
       if(trie.isitWord(word, usedWords)){
         setUsedWords(prev => [...prev, word]);
         setScore(prev => prev + calculate_points(word));
+        hapticHeavy();
       }
       lastSelectedRef.current = '';
       setIsSelected(prev => {
@@ -232,7 +242,7 @@ const Grid = () => {
                 isSelected={isSelected[key1]![key2]!}
                 isWord2={isWord && isSelected[key1]![key2]!}
                 isWordBefore={!isWord && trie.isitWord(word, []) && isSelected[key1]![key2]!}
-                onPressIn={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+                onPressIn={() => {}}
                 onPressOut={() => {}}
               />
             ))}
