@@ -232,7 +232,7 @@ const Grid = () => {
                 isSelected={isSelected[key1]![key2]!}
                 isWord2={isWord && isSelected[key1]![key2]!}
                 isWordBefore={!isWord && trie.isitWord(word, []) && isSelected[key1]![key2]!}
-                onPressIn={() => {}}
+                onPressIn={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
                 onPressOut={() => {}}
               />
             ))}
