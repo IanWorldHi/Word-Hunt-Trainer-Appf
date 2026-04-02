@@ -1,7 +1,7 @@
 # Word Hunt Trainer App
 
 This is an project made wwith react Native, typescript and Expo](https://expo.dev) 
-It creates a replica of the popular WordHunt game from iphone's GamePigeon and has a board solver to display the highest possible scoring words (trie) updated in real time to train pattern recognition for the user. 
+Replica of the popular game WordHunt from iphone's GamePigeon using a trie. Additionaly contains a board solver displaying the highest possible scoring words updated in real time and haptic feedback. Designed as a training app to both play the game and improve pattern recognition in the game. 
 
 <p align="center">
   <img src="assets/Animation.gif" width="700" alt="Demo">
