@@ -42,7 +42,7 @@ app-example
 /ios
 /android
 
-.vscode
+.vscode/
 .env*.local
 .env
 .env.production
