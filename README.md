@@ -22,6 +22,9 @@ Replica of the popular game WordHunt from iphone's GamePigeon using a trie. Addi
 <!-- Future Improvement: animation, remove stacking screens, maybe add customization for if web or app ie diff spacing and diff board randomization (ore vowels, easy consnants and s,r,d) 
 
 Adding backend now
+
+While have to run backend and frontend seperately in 2 terminals
+
 -->
 
 
