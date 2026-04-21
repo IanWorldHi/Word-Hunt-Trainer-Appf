@@ -1,10 +1,16 @@
+import "dotenv/config";
 import express from "express";
 
 const app = express();  
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log(`${req.method} request to ${req.url} - Runs for all requests after previous middleware`);
+    next(); 
+});
 
 //For score CRUD operations
 app.route('/scores/:id')
