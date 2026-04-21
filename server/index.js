@@ -1,9 +1,12 @@
 import "dotenv/config";
+import morgan from "morgan";
 import express from "express";
 
 const app = express();  
 
 const PORT = process.env.PORT || 3002;
+
+app.use(morgan("dev"));
 
 app.use(express.json());
 
@@ -16,15 +19,19 @@ app.use((req, res, next) => {
 app.route('/scores/:id')
     .get((req, res) => {
         const id = req.params.id;
+        res.status(200).json({id, stats: "placeholder"});
     })
     .post((req, res) => {
         const id = req.params.id;
+        res.status(201).json({id, stats: "placeholder"});
     })
     .put((req, res) => {
         const id = req.params.id;
+        res.status(200).json({id, stats: "placeholder"});
     })
     .delete((req, res) => {
         const id = req.params.id;
+        res.status(200).json({id, stats: "placeholder"});
     });
 
 //For user CRUD operations
@@ -44,7 +51,7 @@ app.route('/users/:id')
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send("Somethign went wrong");
+    res.status(500).json({stats: "placeholder"});
 });
 
 app.listen(PORT, () => {
