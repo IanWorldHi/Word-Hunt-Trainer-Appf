@@ -1,7 +1,7 @@
 import "dotenv/config";
 import morgan from "morgan";
 import express from "express";
-import {query} from "./db/index.js";
+import {query as db} from "./db/index.js";
 //changed from import db from "./index.js";
 
 
@@ -24,7 +24,7 @@ app.route('/scores/:id')
         const id = req.params.id;
 
         //This works as a fix
-        const storeAll = await query("SELECT * FROM users");
+        const storeAll = await db("SELECT * FROM users");
         //const storeAll = await db.query("SELECT * FROM users");
         console.log(storeAll);
         res.status(200).json({id, stats: "placeholder"});
