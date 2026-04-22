@@ -19,21 +19,22 @@ app.use((req, res, next) => {
 });
 
 //For score CRUD operations
-app.route('/scores/:id')
+//Changing to username
+app.route('/scores/:username')
     .get( async (req, res, next) => {
         try{
-            const id = req.params.id;
+            const username = req.params.username;
             //throw new Error("Throwing for testing");
 
             //This works as a fix
-            const storeAll = await db(`SELECT * FROM users WHERE id = ${id}`);
+            const storeAll = await db(`SELECT * FROM users WHERE username = '${username}'`);
             //if no id it will just not return anything
             //hm prob add username for searching
             //const storeAll = await db.query("SELECT * FROM users");
 
             console.log(storeAll);
             res.status(200).json({
-                id, 
+                username, 
                 numRows: storeAll.rows.length,
                 data: {
                     user: storeAll.rows
@@ -44,31 +45,31 @@ app.route('/scores/:id')
         };
     })
     .post((req, res) => {
-        const id = req.params.id;
-        res.status(201).json({id, stats: "placeholder"});
+        const username = req.params.username;
+        res.status(201).json({username, stats: "placeholder"});
     })
     .put((req, res) => {
-        const id = req.params.id;
-        res.status(200).json({id, stats: "placeholder"});
+        const username = req.params.username;
+        res.status(200).json({username, stats: "placeholder"});
     })
     .delete((req, res) => {
-        const id = req.params.id;
-        res.status(200).json({id, stats: "placeholder"});
+        const username = req.params.username;
+        res.status(200).json({username, stats: "placeholder"});
     });
 
 //For user CRUD operations
-app.route('/users/:id')
+app.route('/users/:username')
     .get((req, res) => {
-        const id = req.params.id;
+        const username = req.params.username;
     })
     .post((req, res) => {
-        const id = req.params.id;
+        const username = req.params.username;
     })
     .put((req, res) => {
-        const id = req.params.id;
+        const username = req.params.username;
     })
     .delete((req, res) => {
-        const id = req.params.id;
+        const username = req.params.username;
     });
 
 app.use((err, req, res, next) => {
