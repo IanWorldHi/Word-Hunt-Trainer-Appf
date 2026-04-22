@@ -1,5 +1,6 @@
 import {Pool} from "pg";
 
+//This is using the old password that has been changed
 const pool = new Pool({
   user: 'postgres',
   password: 'postgres',
