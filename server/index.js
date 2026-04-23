@@ -60,13 +60,24 @@ app.route('/scores/:username')
             next(err);
         };
     })
-    .put((req, res) => {
-        const username = req.params.username;
-        res.status(200).json({username, stats: "placeholder"});
+    .put(async (req, res) => {
+        //not sure what I want to do with this
+        try{
+            const username = req.params.username;
+            const storeAll = await db("UPDATE users SET name = $1 WHERE username = $2", [req.body.name, username]);
+            res.status(200).json({username, stats: "placeholder"});
+        } catch (err){
+            next(err);
+        };
     })
-    .delete((req, res) => {
+    .delete(async (req, res) => {
         const username = req.params.username;
-        res.status(200).json({username, stats: "placeholder"});
+        try{
+            const storeAll = await db("DELETE FROM users WHERE username = $1", [username]);
+            res.status(200).json({status: "success", username});
+        } catch (err){
+            next(err);
+        };
     });
 
 //For user CRUD operations
