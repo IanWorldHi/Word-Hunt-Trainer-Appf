@@ -27,7 +27,7 @@ app.route('/scores/:username')
             //throw new Error("Throwing for testing");
 
             //This works as a fix
-            const storeAll = await db(`SELECT * FROM users WHERE username = '${username}'`);
+            const storeAll = await db("SELECT * FROM users WHERE username = $1", [username]);
             //if no id it will just not return anything
             //hm prob add username for searching
             //const storeAll = await db.query("SELECT * FROM users");
@@ -44,9 +44,21 @@ app.route('/scores/:username')
             next(err);
         };
     })
-    .post((req, res) => {
+    .post(async (req, res) => {
+        //Might take out of chaining
         const username = req.params.username;
-        res.status(201).json({username, stats: "placeholder"});
+        console.log(req.body);
+        try{
+            const storeAll = await db("INSERT INTO users (name, email, password, username) VALUES ($1, $2, $3, $4)", [
+                req.body.name,
+                req.body.email,
+                req.body.password,
+                req.body.username
+            ]);
+            res.status(201).json({status: "success", username})
+        } catch (err){
+            next(err);
+        };
     })
     .put((req, res) => {
         const username = req.params.username;
