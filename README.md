@@ -29,6 +29,8 @@ New expo updates? breaking things? app worksk diff - plus figure out how the tun
 apparently with mingw the terminal breaks https://claude.ai/chat/ab246056-cc93-4126-91f3-c3a61b203813 for when i use --tunnel
 Fix bubble around exit button
 
+
+test
 -->
 
 
