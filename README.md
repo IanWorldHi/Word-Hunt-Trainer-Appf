@@ -32,6 +32,8 @@ Fix bubble around exit button
 Server (--tunnel) fix: change permissions for Node.js JavaScript to get access to whatever network
 https://claude.ai/chat/b86bc036-1f12-432b-85e2-e4dba5a85c55
 
+
+.env file defined in server
 -->
 
 
