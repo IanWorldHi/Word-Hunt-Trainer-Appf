@@ -27,10 +27,10 @@ app.route('/scores/:username')
             //throw new Error("Throwing for testing");
 
             //This works as a fix
-            const storeAll = await db("SELECT * FROM users WHERE username = $1", [username]);
+            const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);
             //if no id it will just not return anything
             //hm prob add username for searching
-            //const storeAll = await db.query("SELECT * FROM users");
+            //const storeAll = await db.query("SELECT * FROM user_scores1");
 
             console.log(storeAll);
             res.status(200).json({
@@ -49,11 +49,9 @@ app.route('/scores/:username')
         const username = req.params.username;
         console.log(req.body);
         try{
-            const storeAll = await db("INSERT INTO users (name, email, password, username) VALUES ($1, $2, $3, $4)", [
+            const storeAll = await db("INSERT INTO user_scores1 (name, topscore) VALUES ($1, $2)", [
                 req.body.name,
-                req.body.email,
-                req.body.password,
-                req.body.username
+                req.body.topscore
             ]);
             res.status(201).json({status: "success", username})
         } catch (err){
@@ -64,7 +62,7 @@ app.route('/scores/:username')
         //not sure what I want to do with this
         try{
             const username = req.params.username;
-            const storeAll = await db("UPDATE users SET name = $1 WHERE username = $2", [req.body.name, username]);
+            const storeAll = await db("UPDATE user_scores1 SET name = $1 WHERE name = $2", [req.body.name, username]);
             res.status(200).json({username, stats: "placeholder"});
         } catch (err){
             next(err);
@@ -73,7 +71,7 @@ app.route('/scores/:username')
     .delete(async (req, res) => {
         const username = req.params.username;
         try{
-            const storeAll = await db("DELETE FROM users WHERE username = $1", [username]);
+            const storeAll = await db("DELETE FROM user_scores1 WHERE name = $1", [username]);
             res.status(200).json({status: "success", username});
         } catch (err){
             next(err);
