@@ -19,7 +19,10 @@ Replica of the popular game WordHunt from iphone's GamePigeon using a trie. Addi
    ```
 
 
-<!-- Future Improvement: animation, remove stacking screens, maybe add customization for if web or app ie diff spacing and diff board randomization (ore vowels, easy consnants and s,r,d) 
+<!-- 
+Will be PERN mobile setup/stack 
+
+Future Improvement: animation, remove stacking screens, maybe add customization for if web or app ie diff spacing and diff board randomization (ore vowels, easy consnants and s,r,d) 
 
 Adding backend now
 
@@ -34,6 +37,13 @@ https://claude.ai/chat/b86bc036-1f12-432b-85e2-e4dba5a85c55
 
 
 .env file defined in server
+
+Other notes (react):
+react-router is for web, just use expo-router
+
+Worry about security when deploying
+
+Organization of client side files might not be the standard - ie) app files not in routes
 -->
 
 

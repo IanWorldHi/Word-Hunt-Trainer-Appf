@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useEffect, useState} from 'react'; 
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 import {TrieNode, build_trie, calculate_points, make_rand_board} from '../lib/wordhunallg';
-import {GestureHandlerRootView, GestureDetector ,Gesture} from 'react-native-gesture-handler';
+import {GestureHandlerRootView, GestureDetector, Gesture} from 'react-native-gesture-handler';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
