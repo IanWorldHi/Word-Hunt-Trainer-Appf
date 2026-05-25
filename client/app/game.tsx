@@ -72,6 +72,7 @@ const hapticHeavy = () => {
   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
 };
 
+
 //Core logic for displaying the grid of letters as well as managing gestures and their outcomes 
 // (selecting letterBoxs, scoring, valid gestures, turning green/orange for valid/repeated words)
 const Grid = () => {

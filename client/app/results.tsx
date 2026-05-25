@@ -1,13 +1,63 @@
-import React from 'react'; 
-import {Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
-import { useLocalSearchParams, useRouter} from 'expo-router';
+import React, {useEffect, useState} from 'react'; 
+import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
+import {useLocalSearchParams, useRouter} from 'expo-router';
+
+
+type scoreRow = {
+  id: number,
+  name: string,
+  topscore: number,
+  dated: string 
+}
+
+type scoreResponse = {
+  username: string,
+  numRows: number,
+  data: scoreRow[]
+}
+
+const requesting = async(request: Request) => {
+  try{
+    const response = await fetch(request);
+    const result = (await response.json()) as scoreResponse;
+    if(!response.ok){
+      throw new Error(`Response status: ${response.status}`);
+    }
+    else{
+      return result;
+    }
+  }
+  catch(error: unknown){ //I think there are more optimal error handling methods for this
+    console.log("Error: ", error);
+    console.error("Error: ", error);
+    throw error;
+  }
+}
+
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
+  const [isLoading, setIsLoading] = useState(false); //beacuse promise will take time to resolve
+  const [data, setData] = useState(0); //switch to string after
+
+  useEffect(() => {
+    const request = new Request("http://localhost:3001/scores/Pencil", {
+      method: "GET"
+    });
+    const loadData = async () => { //i could just do everything in here but leaving it out for now if reuse
+      const result = await requesting(request);
+      setData(result.numRows);
+      setIsLoading(true);
+    };
+    loadData();
+  }, []); 
+  //empty dependency array means runs once only on mount
+
   const router = useRouter();
   const { score } = useLocalSearchParams(); 
   return (
     <View style={styles.resultView}>
+      {isLoading ? (<ActivityIndicator/>): (<Text>Top Score: {data}</Text>)}
       <Text style={styles.resultText}>Score: {score}</Text>
       <Pressable 
         style={styles.resultButton}
