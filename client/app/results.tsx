@@ -13,7 +13,9 @@ type scoreRow = {
 type scoreResponse = {
   username: string,
   numRows: number,
-  data: scoreRow[]
+  data: {
+    user: scoreRow[]
+  }
 }
 
 const requesting = async(request: Request) => {
@@ -37,8 +39,9 @@ const requesting = async(request: Request) => {
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
-  const [isLoading, setIsLoading] = useState(false); //beacuse promise will take time to resolve
+  const [isLoading, setIsLoading] = useState(true); //beacuse promise will take time to resolve
   const [data, setData] = useState(0); //switch to string after
+  const [rows, setRows] = useState<scoreRow[]>([]);
 
   useEffect(() => {
     const request = new Request("http://localhost:3001/scores/Pencil", {
@@ -47,7 +50,8 @@ export default function ResultsScreen() {
     const loadData = async () => { //i could just do everything in here but leaving it out for now if reuse
       const result = await requesting(request);
       setData(result.numRows);
-      setIsLoading(true);
+      setRows(result.data.user);
+      setIsLoading(false);
     };
     loadData();
   }, []); 
@@ -58,6 +62,7 @@ export default function ResultsScreen() {
   return (
     <View style={styles.resultView}>
       {isLoading ? (<ActivityIndicator/>): (<Text>Top Score: {data}</Text>)}
+      {rows.length > 0 ? <Text>{rows[0].name}: {rows[0].topscore}</Text> : null}
       <Text style={styles.resultText}>Score: {score}</Text>
       <Pressable 
         style={styles.resultButton}
