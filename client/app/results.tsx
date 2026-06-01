@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'; 
 import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import {useLocalSearchParams, useRouter} from 'expo-router';
-
+import wordHunters from './apis/wordHunters';
 
 type scoreRow = {
   id: number,
@@ -39,6 +39,20 @@ const requesting = async(request: Request) => {
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
+  useEffect(() => {
+    const fetchling = async () => {
+      try{
+        const response = await wordHunters.get("/scores/Pencil");
+        console.log(response);
+      }
+      catch(error: unknown){
+        console.log("Error: ", error);
+        console.error("Error: ", error);
+      }
+    }
+    fetchling();
+  }, []);
+
   const [isLoading, setIsLoading] = useState(true); //beacuse promise will take time to resolve
   const [data, setData] = useState(0); //switch to string after
   const [rows, setRows] = useState<scoreRow[]>([]);

@@ -1,9 +1,10 @@
+//cleanup console.logs
 import "dotenv/config";
 import morgan from "morgan";
 import express from "express";
 import {query as db} from "./db/index.js";
+import cors from "cors";
 //changed from import db from "./index.js";
-
 
 const app = express();  
 
@@ -13,6 +14,7 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
+/*
 //Will have to fix this up for production security 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,6 +25,8 @@ app.use((req, res, next) => {
     }
     next();
 });
+*/
+app.use(cors());
 
 
 app.use((req, res, next) => {

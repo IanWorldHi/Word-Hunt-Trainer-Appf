@@ -45,6 +45,9 @@ Worry about security when deploying
 
 Organization of client side files might not be the standard - ie) app files not in routes
 Really have to reorganize components and etc
+
+Using axios - mention that in finalized README - switched from fetch to axios
+
 -->
 
 
