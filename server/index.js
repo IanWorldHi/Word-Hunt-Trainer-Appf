@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     next();
 });
 */
-app.use(cors());
+app.use(cors()); //not sure how this works security wise
 
 
 app.use((req, res, next) => {

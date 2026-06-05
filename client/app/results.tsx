@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import wordHunters from './apis/wordHunters';
+import { WhContext, WhContextProvider } from './context/whContext';
 
 type scoreRow = {
   id: number,
@@ -18,6 +19,7 @@ type scoreResponse = {
   }
 }
 
+//need better error handling like an error screen
 const requesting = async(request: Request) => {
   try{
     const response = await fetch(request);
@@ -39,10 +41,18 @@ const requesting = async(request: Request) => {
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
+  const {scores, setScores} = React.useContext(WhContext);
   useEffect(() => {
     const fetchling = async () => {
       try{
         const response = await wordHunters.get("/scores/Pencil");
+        /* might be wrong place cuz we're fetching, maybe i should be fetching after user authentication
+        for(let i = 0; i< scores.length; i++){
+          if(scores[i] < ){
+
+          }
+        }
+        */
         console.log(response);
       }
       catch(error: unknown){
@@ -74,6 +84,7 @@ export default function ResultsScreen() {
   const router = useRouter();
   const { score } = useLocalSearchParams(); 
   return (
+    <WhContextProvider>
     <View style={styles.resultView}>
       {isLoading ? (<ActivityIndicator/>): (<Text>Top Score: {data}</Text>)}
       {rows.length > 0 ? <Text>{rows[0].name}: {rows[0].topscore}</Text> : null}
@@ -92,6 +103,7 @@ export default function ResultsScreen() {
       </Pressable>
       <Text style={styles.result2Text}>Are you read to get better at WordHunt to beat your friends?</Text>
     </View>
+    </WhContextProvider>
   )
 }
 
