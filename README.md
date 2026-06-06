@@ -50,6 +50,7 @@ Using axios - mention that in finalized README - switched from fetch to axios
 
 Using context api
 
+JWT authentication 
 
 -->
 

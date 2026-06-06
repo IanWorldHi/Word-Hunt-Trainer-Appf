@@ -34,6 +34,12 @@ app.use((req, res, next) => {
     next(); 
 });
 
+//Logining in and authetnicating users
+app.route('/login').get((req, res) => {
+
+});
+
+
 //For score CRUD operations
 //Changing to username
 app.route('/scores/:username')
