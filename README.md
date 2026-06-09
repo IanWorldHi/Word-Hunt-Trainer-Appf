@@ -50,7 +50,8 @@ Using axios - mention that in finalized README - switched from fetch to axios
 
 Using context api
 
-JWT authentication 
+JWT authentication - installed jsonwebtoken, bcrypt
+- salt and hashing, hashing the passwords will produce the same hash for the same passwords, adding a different unique salt at the begining makes each hash unique
 
 -->
 

@@ -161,3 +161,6 @@ export function calculate_points(word: string): number {
         return 200*2*(word.length-3);
     }
 }
+
+
+

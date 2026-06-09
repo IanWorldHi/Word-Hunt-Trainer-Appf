@@ -4,6 +4,8 @@ import morgan from "morgan";
 import express from "express";
 import {query as db} from "./db/index.js";
 import cors from "cors";
+import bcrypt from "bcrypt"; //async lib 
+import jwt from "jsonwebtoken";
 //changed from import db from "./index.js";
 
 const app = express();  
@@ -34,11 +36,61 @@ app.use((req, res, next) => {
     next(); 
 });
 
-//Logining in and authetnicating users
-app.route('/login').get((req, res) => {
 
+function authenticateTok(req, res, next){
+    const authHeader = req.headers['authorization']; //passed as BEARER TOKEN ?
+    const token = authHeader && authHeader.split(' ')[1]; //first check exist
+    if(token == null){
+        return res.status(401).send("No token provided");
+    }
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if(err){
+            return res.status(403).send("Invalid token - no access for you");
+        }
+        req.user = user;
+        next();
+    })
+}
+
+const example = []
+
+//Logining in and authetnicating users
+app.post('/login', (req, res) => {
+    const user = example.find(ex => ex.username === req.body.username);
+    //require('crypto').randomBytes(64).toString('hex')
+    if(user == null){
+        return res.status(400).send("Cannot find user");
+    }
+    try{
+        const accessTok = jwt.sign({username: user.username}, process.env.JWT_SECRET);
+        if(bcrypt.compare(req.body.password, user.password)){
+            res.json({accessToken: accessTok});
+        }
+    }
+    catch{
+        res.status(500).send("Error logging in");
+    }
 });
 
+
+app.post('/register', async(req, res, next) => {
+    try{
+        const salt = await bcrypt.genSalt(10); //default is 10, there is synchrous verseion of genSaltSync
+        const hashedPwd = await bcrypt.hash(req.body.password, salt);
+        console.log(salt + " and " + hashedPwd);
+        const hm = {username: req.body.username, password: hashedPwd};
+        example.push(hm);
+        res.status(201).json({status: "success", data: hm});
+    }
+    catch{
+        res.status(500).send("ERROR registering user");
+    }
+});
+
+//would add the middleware to the below stuff - syntax should be as folows
+app.get('/ex', authenticateTok, (req, res) => {
+    res.json({user: req.user}); //this would work bc of middleware
+});
 
 //For score CRUD operations
 //Changing to username
@@ -124,6 +176,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
+
+
 
 
 

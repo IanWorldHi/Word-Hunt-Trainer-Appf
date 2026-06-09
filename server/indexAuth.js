@@ -1,0 +1,11 @@
+function generateAccessToken(user){
+    
+}
+
+
+
+
+
+
+
+
