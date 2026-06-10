@@ -52,6 +52,13 @@ Using context api
 
 JWT authentication - installed jsonwebtoken, bcrypt
 - salt and hashing, hashing the passwords will produce the same hash for the same passwords, adding a different unique salt at the begining makes each hash unique
+- refresh token
+
+Seperate authentication server and data server for postgres
+
+need to add db for pswd username
+
+Using redis
 
 -->
 
