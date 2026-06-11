@@ -18,20 +18,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-function authenticateTok(req, res, next){
-    const authHeader = req.headers['authorization']; //passed as BEARER TOKEN ?
-    const token = authHeader && authHeader.split(' ')[1]; //first check exist
-    if(token == null){
-        return res.status(401).send("No token provided");
-    }
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if(err){
-            return res.status(403).send("Invalid token - no access for you");
-        }
-        req.user = user;
-        next();
-    })
-}
 
 const example = []
 
@@ -45,8 +31,8 @@ app.post('/login', async (req, res) => {
     try{
         const accessTok = generateAccessToken(user);
         const refreshTok = jwt.sign(user, process.env.REFRESH_SECRET);
-        await client.set(refreshTok, user.uesrname, {expire: 60*60*24*3}); //3 days
-        if(bcrypt.compare(req.body.password, user.password)){
+        await client.set(refreshTok, user.username, {EX: 60*60*24*3}); //3 days, syntax is EX
+        if(await bcrypt.compare(req.body.password, user.password)){
             res.json({accessToken: accessTok, refreshToken: refreshTok});
         }
     }
@@ -80,6 +66,7 @@ app.post('/register', async(req, res, next) => {
         const salt = await bcrypt.genSalt(10); //default is 10, there is synchrous verseion of genSaltSync
         const hashedPwd = await bcrypt.hash(req.body.password, salt);
         console.log(salt + " and " + hashedPwd);
+        
         const hm = {username: req.body.username, password: hashedPwd};
         example.push(hm); //changed to db
         res.status(201).json({status: "success", data: hm});
@@ -98,6 +85,11 @@ app.delete('/logout', async (req, res) => {
 function generateAccessToken(user){
     return jwt.sign({username: user.username}, process.env.JWT_SECRET, {expiresIn: '1800s'}); //30 mins
 }
+
+
+app.listen(PORT, () => {
+    console.log(`Auth server running on port: ${PORT}`);
+});
 
 
 

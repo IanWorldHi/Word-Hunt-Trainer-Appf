@@ -13,7 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 3002;
 
 app.use(morgan("dev"));
-
 app.use(express.json());
 
 /*
@@ -51,41 +50,6 @@ function authenticateTok(req, res, next){
         next();
     })
 }
-
-const example = []
-
-//Logining in and authetnicating users
-app.post('/login', (req, res) => {
-    const user = example.find(ex => ex.username === req.body.username);
-    //require('crypto').randomBytes(64).toString('hex')
-    if(user == null){
-        return res.status(400).send("Cannot find user");
-    }
-    try{
-        const accessTok = jwt.sign({username: user.username}, process.env.JWT_SECRET);
-        if(bcrypt.compare(req.body.password, user.password)){
-            res.json({accessToken: accessTok});
-        }
-    }
-    catch{
-        res.status(500).send("Error logging in");
-    }
-});
-
-
-app.post('/register', async(req, res, next) => {
-    try{
-        const salt = await bcrypt.genSalt(10); //default is 10, there is synchrous verseion of genSaltSync
-        const hashedPwd = await bcrypt.hash(req.body.password, salt);
-        console.log(salt + " and " + hashedPwd);
-        const hm = {username: req.body.username, password: hashedPwd};
-        example.push(hm);
-        res.status(201).json({status: "success", data: hm});
-    }
-    catch{
-        res.status(500).send("ERROR registering user");
-    }
-});
 
 //would add the middleware to the below stuff - syntax should be as folows
 app.get('/ex', authenticateTok, (req, res) => {

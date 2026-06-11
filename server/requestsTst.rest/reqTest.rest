@@ -29,7 +29,7 @@ POST http://localhost:4001/token
 Content-Type: application/json
 
 {
-    "refreshToken": "testuser",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMSIsInBhc3N3b3JkIjoiJDJiJDEwJC9lU3VwSEhJdGlsTGxaeEMzeTlsTC4vNUd6czVvQUo4MEE4OFBramRkUFZrNi9iYko2aHZtIiwiaWF0IjoxNzgxMTM2Nzc1fQ.UikCD9tjM6jJSZGTDypwOLnACze3LKR7UWtD4Cj5wKU"
 }
 
 ###

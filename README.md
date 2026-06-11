@@ -58,7 +58,28 @@ Seperate authentication server and data server for postgres
 
 need to add db for pswd username
 
-Using redis
+Using redis from docker
+docker run -d --name redis -p 6379:6379 redis:<version>
+docker stop redis
+docker start redis
+docker rm redis
+
+
+
+Postgres commands:
+db = wordapp
+/d for all tables
+CREATE TABLE users (
+    id       SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+CREATE TABLE user_scores1 (
+    id       SERIAL PRIMARY KEY,
+    name     VARCHAR(255) NOT NULL,
+    topscore INTEGER NOT NULL,
+    dated    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -->
 
