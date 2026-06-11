@@ -30,7 +30,7 @@ app.post('/login', async (req, res) => {
     const user = user1.rows[0];
     try{
         const accessTok = generateAccessToken(user);
-        const refreshTok = jwt.sign(user, process.env.REFRESH_SECRET);
+        const refreshTok = jwt.sign(user.username, process.env.REFRESH_SECRET);
         await client.set(refreshTok, user.username, {EX: 60*60*24*3}); //3 days, syntax is EX
         if(await bcrypt.compare(req.body.password, user.password)){
             res.json({accessToken: accessTok, refreshToken: refreshTok});

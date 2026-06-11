@@ -4,8 +4,6 @@ import morgan from "morgan";
 import express from "express";
 import {query as db} from "./db/index.js";
 import cors from "cors";
-import bcrypt from "bcrypt"; //async lib 
-import jwt from "jsonwebtoken";
 //changed from import db from "./index.js";
 
 const app = express();  
@@ -56,20 +54,15 @@ app.get('/ex', authenticateTok, (req, res) => {
     res.json({user: req.user}); //this would work bc of middleware
 });
 
+
 //For score CRUD operations
 //Changing to username
-app.route('/scores/:username')
+//pass username in req body alongside auth token
+app.route('/scores/')
     .get( async (req, res, next) => {
         try{
-            const username = req.params.username;
-            //throw new Error("Throwing for testing");
-
-            //This works as a fix
-            const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);
-            //if no id it will just not return anything
-            //hm prob add username for searching
-            //const storeAll = await db.query("SELECT * FROM user_scores1");
-
+            const username = req.body.username;
+            const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);//this typa format prevent sql injection
             console.log(storeAll);
             res.status(200).json({
                 username, 
@@ -78,40 +71,18 @@ app.route('/scores/:username')
                     user: storeAll.rows
                 }
             });
-        } catch (err){
-            next(err);
-        };
-    })
-    .post(async (req, res) => {
-        //Might take out of chaining
-        const username = req.params.username;
-        console.log(req.body);
-        try{
-            const storeAll = await db("INSERT INTO user_scores1 (name, topscore) VALUES ($1, $2)", [
-                req.body.name,
-                req.body.topscore
-            ]);
-            res.status(201).json({status: "success", username})
-        } catch (err){
+        } 
+        catch(err){
             next(err);
         };
     })
     .put(async (req, res) => {
-        //not sure what I want to do with this
         try{
-            const username = req.params.username;
-            const storeAll = await db("UPDATE user_scores1 SET name = $1 WHERE name = $2", [req.body.name, username]);
+            const username = req.body.username;
+            const storeAll = await db("UPDATE user_scores1 topscore = $1 WHERE name = $2", [req.body.topscore, username]);
             res.status(200).json({username, stats: "placeholder"});
-        } catch (err){
-            next(err);
-        };
-    })
-    .delete(async (req, res) => {
-        const username = req.params.username;
-        try{
-            const storeAll = await db("DELETE FROM user_scores1 WHERE name = $1", [username]);
-            res.status(200).json({status: "success", username});
-        } catch (err){
+        } 
+        catch(err){
             next(err);
         };
     });
@@ -130,6 +101,7 @@ app.route('/users/:username')
     .delete((req, res) => {
         const username = req.params.username;
     });
+
 
 app.use((err, req, res, next) => {
     console.error("This is the error middleware, the following will be the error stack trace");
