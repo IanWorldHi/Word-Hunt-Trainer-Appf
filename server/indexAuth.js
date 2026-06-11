@@ -23,11 +23,11 @@ const example = []
 
 //Logining in and authetnicating users
 app.post('/login', async (req, res) => {
-    const user = example.find(ex => ex.username === req.body.username);
-    //require('crypto').randomBytes(64).toString('hex')
-    if(user == null){
+    const user1 = await db("SELECT username, password FROM users WHERE username = $1", [req.body.username]);
+    if(user1 == null){
         return res.status(400).send("Cannot find user");
     }
+    const user = user1.rows[0];
     try{
         const accessTok = generateAccessToken(user);
         const refreshTok = jwt.sign(user, process.env.REFRESH_SECRET);
@@ -68,10 +68,12 @@ app.post('/register', async(req, res, next) => {
         console.log(salt + " and " + hashedPwd);
         
         const hm = {username: req.body.username, password: hashedPwd};
-        example.push(hm); //changed to db
+        await db("INSERT INTO users (username, password) VALUES ($1, $2)", [hm.username, hm.password]);
+        await db("INSERT INTO user_scores1 (name, topscore) VALUES ($1, $2)", [hm.username, 0]);
         res.status(201).json({status: "success", data: hm});
     }
-    catch{
+    catch(err){
+        console.error(err);
         res.status(500).send("ERROR registering user");
     }
 });
