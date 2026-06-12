@@ -19,18 +19,17 @@ app.use(express.json());
 app.use(cors());
 
 
-const example = []
 
 //Logining in and authetnicating users
 app.post('/login', async (req, res) => {
-    const user1 = await db("SELECT username, password FROM users WHERE username = $1", [req.body.username]);
-    if(user1 == null){
-        return res.status(400).send("Cannot find user");
-    }
-    const user = user1.rows[0];
     try{
+        const user1 = await db("SELECT username, password FROM users WHERE username = $1", [req.body.username]);
+        const user = user1.rows[0];
+        if(user == null){
+            return res.status(400).send("Cannot find user");
+        }
         const accessTok = generateAccessToken(user);
-        const refreshTok = jwt.sign(user.username, process.env.REFRESH_SECRET);
+        const refreshTok = jwt.sign({username: user.username}, process.env.REFRESH_SECRET);
         await client.set(refreshTok, user.username, {EX: 60*60*24*3}); //3 days, syntax is EX
         if(await bcrypt.compare(req.body.password, user.password)){
             res.json({accessToken: accessTok, refreshToken: refreshTok});
@@ -45,7 +44,7 @@ app.post('/login', async (req, res) => {
 //store refreshTok in a redis cache
 app.post('/token', async (req, res) => {
     const refreshTok = req.body.refreshToken;
-    if (refreshTok == null){
+    if (refreshTok == null){    
         return res.status(401).send("No token provided");
     }
     const storedTok = await client.get(refreshTok);
@@ -80,7 +79,7 @@ app.post('/register', async(req, res, next) => {
 
 app.delete('/logout', async (req, res) => {
     await client.del(req.body.refreshToken);
-    res.status(204).send("Logged out");
+    res.status(204);
 });
 
 

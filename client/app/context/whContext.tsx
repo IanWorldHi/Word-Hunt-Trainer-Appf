@@ -10,8 +10,8 @@ export const WhContext = createContext({
     username: "",
     accessToken: "",
     isLoading: true,
-    setAuth: (username: string, accessToken: string, refreshToken: string) => {},
-    logout: () => {},
+    setAuth: async (username: string, accessToken: string, refreshToken: string): Promise<void> => {},
+    logout: async (): Promise<void> => {},
 });
 
 export const WhContextProvider = (props: any) => {
@@ -33,7 +33,7 @@ export const WhContextProvider = (props: any) => {
                 const refTok = await SecureStore.getItemAsync("refreshToken");
                 const savUsername = await SecureStore.getItemAsync("username");
                 if(refTok && savUsername){
-                    const res = await fetch("http://localhost:4001/refresh", {
+                    const res = await fetch("http://localhost:4001/token", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"

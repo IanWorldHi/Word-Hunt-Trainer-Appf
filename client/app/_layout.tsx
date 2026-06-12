@@ -1,8 +1,7 @@
 import { Stack, useRouter, useSegments } from "expo-router";
-import React, {useEffect, useState} from 'react'; 
-import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
+import React, {useEffect} from 'react'; 
+import { Text, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import { WhContext, WhContextProvider } from './context/whContext';
-
 
 
 function AuthFunc(){
@@ -18,7 +17,7 @@ function AuthFunc(){
         else if(accessToken && isLogScreen){
             router.replace("/");
         }
-    }, [accessToken, isLoading, segments]);
+    }, [accessToken, isLoading, segments, router]);
     return null;
 }
 

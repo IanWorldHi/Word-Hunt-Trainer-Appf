@@ -59,8 +59,7 @@ DELETE http://localhost:4001/logout
 Content-Type: application/json
 
 {
-    "username": "testuser1",
-    "password": "testpassword1"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMSIsInBhc3N3b3JkIjoiJDJiJDEwJEhFMlo3b1UzdVZtdHVwN1V0RFlrQU9iNWVPb1Vyd0RpanNKR2oxdkovQTMzcjUzTW4wcmx5IiwiaWF0IjoxNzgxMTQwMDU5fQ.UCk7AMBy6ENtiWp2N78-Fq61dR6pOTc6JsR_YSvdPoo"
 }
 
 

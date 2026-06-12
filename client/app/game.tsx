@@ -231,7 +231,7 @@ const Grid = () => {
             setLayout({x: pageX, y: pageY});
           });
           }, 100);
-    return () => clearTimeout(timer);
+          return () => clearTimeout(timer);
         }}
         >
         {board.map((row, key1) => (

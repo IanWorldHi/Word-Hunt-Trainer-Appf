@@ -10,6 +10,8 @@ export default function Login() {
     const { setAuth } = useContext(WhContext);
     const router = useRouter();
 
+
+    //have to add a register function as well
     const handleLogin = async () => {
         try {
             const res = await fetch("http://localhost:4001/login", {
@@ -24,7 +26,8 @@ export default function Login() {
             const { accessToken, refreshToken } = await res.json();
             await setAuth(username, accessToken, refreshToken);
             router.replace("/");
-        } catch {
+        } 
+        catch {
             setError("Could not connect to server");
         }
     };

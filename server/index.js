@@ -85,22 +85,6 @@ app.route('/scores/')
         };
     });
 
-//For user CRUD operations
-app.route('/users/:username')
-    .get((req, res) => {
-        const username = req.params.username;
-    })
-    .post((req, res) => {
-        const username = req.params.username;
-    })
-    .put((req, res) => {
-        const username = req.params.username;
-    })
-    .delete((req, res) => {
-        const username = req.params.username;
-    });
-
-
 app.use((err, req, res, next) => {
     console.error("This is the error middleware, the following will be the error stack trace");
     console.error(err.stack);
