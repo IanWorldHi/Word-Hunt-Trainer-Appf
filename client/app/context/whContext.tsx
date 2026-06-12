@@ -4,8 +4,6 @@ import { useEffect } from "react";
 //add on login features
 //do i have logout features? isn't it just closing the app
 
-
-
 export const WhContext = createContext({
     scores: [] as number[],
     setScores: (scores: number[]) => {},

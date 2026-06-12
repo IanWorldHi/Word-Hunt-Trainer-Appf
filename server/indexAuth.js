@@ -54,7 +54,7 @@ app.post('/token', async (req, res) => {
     }
     jwt.verify(refreshTok, process.env.REFRESH_SECRET, (err, user) => {
         if (err) return res.status(403).send("Invalid token");
-        const accessTok = generateAccessToken(user);
+        const accessTok = generateAccessToken(user.username);
         res.json({ accessToken: accessTok });
     });
 
@@ -85,7 +85,7 @@ app.delete('/logout', async (req, res) => {
 
 
 function generateAccessToken(user){
-    return jwt.sign({username: user.username}, process.env.JWT_SECRET, {expiresIn: '1800s'}); //30 mins
+    return jwt.sign({username: user}, process.env.JWT_SECRET, {expiresIn: '1800s'}); //30 mins
 }
 
 

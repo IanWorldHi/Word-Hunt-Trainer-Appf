@@ -46,11 +46,12 @@ Worry about security when deploying
 Organization of client side files might not be the standard - ie) app files not in routes
 Really have to reorganize components and etc
 
-Using axios - mention that in finalized README - switched from fetch to axios
+Using axios - mention that in finalized README - switched from fetch to axios - still using fetch rn
+-  ooo use axios if we are doing like call refresh when error to get new authtoken depends on how i am handeling the refreshing part
 
 Using context api
 
-JWT authentication - installed jsonwebtoken, bcrypt
+JWT authentication - installed jsonwebtoken, bcrypt - sotre in expo-secure-store (npx expo install expo-secure-store)
 - salt and hashing, hashing the passwords will produce the same hash for the same passwords, adding a different unique salt at the begining makes each hash unique
 - refresh token
 

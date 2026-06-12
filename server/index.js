@@ -4,6 +4,7 @@ import morgan from "morgan";
 import express from "express";
 import {query as db} from "./db/index.js";
 import cors from "cors";
+import jwt from "jsonwebtoken";
 //changed from import db from "./index.js";
 
 const app = express();  
@@ -66,21 +67,18 @@ app.route('/scores/')
             console.log(storeAll);
             res.status(200).json({
                 username, 
-                numRows: storeAll.rows.length,
-                data: {
-                    user: storeAll.rows
-                }
+                topScore: storeAll.rows[0].topscore
             });
         } 
         catch(err){
             next(err);
         };
     })
-    .put(async (req, res) => {
+    .put(async (req, res, next) => {
         try{
             const username = req.body.username;
-            const storeAll = await db("UPDATE user_scores1 topscore = $1 WHERE name = $2", [req.body.topscore, username]);
-            res.status(200).json({username, stats: "placeholder"});
+            const storeAll = await db("UPDATE user_scores1 SET topscore = $1 WHERE name = $2", [req.body.topscore, username]);
+            res.status(200).json({username, topscore: req.body.topscore});
         } 
         catch(err){
             next(err);
