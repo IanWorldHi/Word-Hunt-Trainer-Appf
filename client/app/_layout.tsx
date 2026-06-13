@@ -8,6 +8,7 @@ function AuthFunc(){
     const {accessToken, isLoading} = React.useContext(WhContext);
     const router = useRouter();
     const segments = useSegments();
+    const segment = segments[0];
     useEffect(() => {
         if(isLoading) return;
         const isLogScreen = segments[0] === "login";
@@ -17,7 +18,7 @@ function AuthFunc(){
         else if(accessToken && isLogScreen){
             router.replace("/");
         }
-    }, [accessToken, isLoading, segments, router]);
+    }, [accessToken, isLoading, segment, segments, router]);
     return null;
 }
 

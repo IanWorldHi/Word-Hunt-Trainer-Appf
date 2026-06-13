@@ -34,43 +34,40 @@ export default function ResultsScreen() {
           }
           fetchling();
           setIsLoading2(false);
-  }, [accessToken, username, setScores]);
+          const newTopScore = async () => {
+            try{
+              const request = await fetch("http://localhost:3001/scores", {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({username, score1})
+              });
+              if(!request.ok){
+                console.error("Failed to update top score");
+              }
+            }
+            catch(error: unknown){
+              console.log("Error: ", error);
+            }
+            setIsLoading(false);
+          }
+          if(score1 > scores){
+            setIsNewTopScore(true);
+            setScores(score1);
+            newTopScore();
+          }
+          else{
+            setIsNewTopScore(false);
+          }
+  }, [accessToken, username, score1, scores, score, setScores]);
   
-  const newTopScore = async () => {
-    try{
-      const request = await fetch("http://localhost:3001/scores", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({username, score})
-      });
-      if(!request.ok){
-        console.error("Failed to update top score");
-      }
-    }
-    catch(error: unknown){
-      console.log("Error: ", error);
-    }
-    setIsLoading(false);
-  }
-
-  if(score1 > scores){
-    newTopScore(); 
-    setScores(score1);
-    setIsNewTopScore(true);
-  }
-  else{
-    setIsLoading(false);
-  }
-
   return (
     <View style={styles.resultView}>
       {isNewTopScore && <Text>Congratulations! New Top Score: {scores}</Text>}
-      {(isLoading && isLoading2) ? (<ActivityIndicator/>): (<Text>Top Score: {scores}</Text>)}
-      <Text>{username}: {score1}</Text>
-      <Text style={styles.resultText}>Score: {score}</Text>
+      {(isLoading && isLoading2) ? (<ActivityIndicator/>): (<Text style={styles.resultText}>Top Score: {scores}</Text>)}
+      <Text style={styles.resultText}>Score: {score} ({username})</Text>
       <Pressable 
         style={styles.resultButton}
         onPress={() => router.push('/game')}

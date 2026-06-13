@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     input: {
-        width: "100%",
+        width: 100,
         backgroundColor: "#fff",
         borderRadius: 8,
         padding: 12,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     button: {
-        width: "100%",
+        width: 50,
         backgroundColor: "#2f943f",
         borderRadius: 8,
         padding: 14,
