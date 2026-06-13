@@ -1,7 +1,7 @@
 import { Stack, useRouter, useSegments } from "expo-router";
 import React, {useEffect} from 'react'; 
 import { Text, StyleSheet, Pressable} from 'react-native';  //uses JSX;
-import { WhContext, WhContextProvider } from './context/whContext';
+import { WhContext, WhContextProvider } from '../context/whContext';
 
 
 function AuthFunc(){
@@ -11,11 +11,11 @@ function AuthFunc(){
     const segment = segments[0];
     useEffect(() => {
         if(isLoading) return;
-        const isLogScreen = segments[0] === "login";
-        if(!accessToken && !isLogScreen){
+        const isAuthScreen = segments[0] === "login" || segments[0] === "register";
+        if(!accessToken && !isAuthScreen){
             router.replace("/login");
         }
-        else if(accessToken && isLogScreen){
+        else if(accessToken && isAuthScreen){
             router.replace("/");
         }
     }, [accessToken, isLoading, segment, segments, router]);
@@ -32,9 +32,8 @@ export default function RootLayout() {
     <WhContextProvider>
     <AuthFunc/>
     <Stack initialRouteName="login" screenOptions={{}}>
-      <Stack.Screen name="login" options={{
-        headerShown: false
-      }}/>
+      <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="register" options={{ headerShown: false }} />
       <Stack.Screen name="index" options={{
         headerShown: true,
         headerStyle: {

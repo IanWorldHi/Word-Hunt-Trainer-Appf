@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
-import { WhContext } from "./context/whContext";
+import { WhContext } from "../context/whContext";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -40,6 +40,9 @@ export default function Login() {
             <Pressable style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>
             </Pressable>
+            <Pressable onPress={() => router.replace("/register")}>
+                <Text style={styles.link}>{"Don't have an account? Register"}</Text>
+            </Pressable>
         </View>
     );
 }
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     input: {
-        width: 100,
+        width: 200,
         backgroundColor: "#fff",
         borderRadius: 8,
         padding: 12,
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     button: {
-        width: 50,
+        width: 110,
         backgroundColor: "#2f943f",
         borderRadius: 8,
         padding: 14,
@@ -81,5 +84,11 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 18,
         fontWeight: "600",
+    },
+    link: {
+        color: "#fff",
+        fontSize: 14,
+        textDecorationLine: "underline",
+        marginTop: 16,
     },
 });

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'; 
 import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import {useLocalSearchParams, useRouter} from 'expo-router';
-import { WhContext } from './context/whContext';
+import { WhContext } from '../context/whContext';
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
