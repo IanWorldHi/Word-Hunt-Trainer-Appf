@@ -2,6 +2,8 @@ import React, {createContext, useState, useEffect} from "react";
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from "react-native";
 
+
+//if I were to ship to production for web I would use cookies
 const secureGet = async (key: string) => {
     if (Platform.OS === 'web') return localStorage.getItem(key);
     return SecureStore.getItemAsync(key);
