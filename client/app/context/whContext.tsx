@@ -1,5 +1,21 @@
 import React, {createContext, useState, useEffect} from "react";
 import * as SecureStore from 'expo-secure-store';
+import { Platform } from "react-native";
+
+const secureGet = async (key: string) => {
+    if (Platform.OS === 'web') return localStorage.getItem(key);
+    return SecureStore.getItemAsync(key);
+};
+const secureSet = async (key: string, value: string) => {
+    if (Platform.OS === 'web') return localStorage.setItem(key, value);
+    return SecureStore.setItemAsync(key, value);
+};
+const secureDel = async (key: string) => {
+    if (Platform.OS === 'web') return localStorage.removeItem(key);
+    return SecureStore.deleteItemAsync(key);
+};
+
+
 //add on login features
 //do i have logout features? isn't it just closing the app
 
@@ -21,8 +37,8 @@ export const WhContextProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
     const logout = async () => {
-        await SecureStore.deleteItemAsync("refreshToken");
-        await SecureStore.deleteItemAsync("username");
+        await secureDel("refreshToken");
+        await secureDel("username");
         setUsername("");
         setAccessToken("");
     };
@@ -30,8 +46,8 @@ export const WhContextProvider = (props: any) => {
     useEffect(() => {
         const restoreSession = async () => {
             try{
-                const refTok = await SecureStore.getItemAsync("refreshToken");
-                const savUsername = await SecureStore.getItemAsync("username");
+                const refTok = await secureGet("refreshToken");
+                const savUsername = await secureGet("username");
                 if(refTok && savUsername){
                     const res = await fetch("http://localhost:4001/token", {
                         method: "POST",
@@ -61,8 +77,8 @@ export const WhContextProvider = (props: any) => {
     }, []);
 
     const setAuth = async (username: string, accessToken: string, refreshToken: string) => {
-        await SecureStore.setItemAsync("refreshToken", refreshToken);
-        await SecureStore.setItemAsync("username", username);
+        await secureSet("refreshToken", refreshToken);
+        await secureSet("username", username);
         setUsername(username);
         setAccessToken(accessToken);
     };

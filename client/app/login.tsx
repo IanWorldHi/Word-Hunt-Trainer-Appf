@@ -10,7 +10,6 @@ export default function Login() {
     const { setAuth } = useContext(WhContext);
     const router = useRouter();
 
-
     //have to add a register function as well
     const handleLogin = async () => {
         try {
