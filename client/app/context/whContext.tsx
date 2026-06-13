@@ -1,6 +1,5 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useState, useEffect} from "react";
 import * as SecureStore from 'expo-secure-store';
-import { useEffect } from "react";
 //add on login features
 //do i have logout features? isn't it just closing the app
 
@@ -60,28 +59,6 @@ export const WhContextProvider = (props: any) => {
         };
         restoreSession();
     }, []);
-
-    useEffect(() => {
-        const fetchling = async () => {
-          try{
-            const response = await fetch("http://localhost:3001/scores", {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
-              },
-              body: JSON.stringify({username})
-            });
-            const data = await response.json();
-            setScores(data.topScore);
-          }
-          catch(error: unknown){
-            console.log("Error: ", error);
-            console.error("Error: ", error);
-          }
-        }
-        fetchling();
-      }, []);
 
     const setAuth = async (username: string, accessToken: string, refreshToken: string) => {
         await SecureStore.setItemAsync("refreshToken", refreshToken);

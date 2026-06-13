@@ -1,57 +1,59 @@
 import React, {useEffect, useState} from 'react'; 
 import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import {useLocalSearchParams, useRouter} from 'expo-router';
-import wordHunters from './apis/wordHunters';
-import { WhContext, WhContextProvider } from './context/whContext';
-
-
-type scoreResponse = {
-  username: string,
-  topScore: number
-}
-
-//need better error handling like an error screen
-const requesting = async(request: Request) => {
-  try{
-    const response = await fetch(request);
-    const result = (await response.json()) as scoreResponse;
-    if(!response.ok){
-      throw new Error(`Response status: ${response.status}`);
-    }
-    else{
-      return result;
-    }
-  }
-  catch(error: unknown){ //I think there are more optimal error handling methods for this
-    console.log("Error: ", error);
-    console.error("Error: ", error);
-    throw error;
-  }
-}
-
+import { WhContext } from './context/whContext';
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
   const {username, accessToken, scores, setScores} = React.useContext(WhContext);
   const [isLoading, setIsLoading] = useState(true); //beacuse promise will take time to resolve
+  const [isLoading2, setIsLoading2] = useState(true);
   const [isNewTopScore, setIsNewTopScore] = useState(false);
   const router = useRouter();
   const { score } = useLocalSearchParams(); 
   const score1 = parseInt(score as string, 10);
+  
+  useEffect(() => {
+          const fetchling = async () => {
+            try{
+              const response = await fetch("http://localhost:3001/scores", {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({username})
+              });
+              const data = await response.json();
+              setScores(data.topScore);
+            }
+            catch(error: unknown){
+              console.log("Error: ", error);
+              console.error("Error: ", error);
+            }
+          }
+          fetchling();
+          setIsLoading2(false);
+  }, [accessToken, username, setScores]);
+  
   const newTopScore = async () => {
     try{
-      const request = new Request("http://localhost:3001/scores", {
-        method: "POST",
+      const request = await fetch("http://localhost:3001/scores", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${accessToken}`
         },
         body: JSON.stringify({username, score})
       });
+      if(!request.ok){
+        console.error("Failed to update top score");
+      }
     }
     catch(error: unknown){
       console.log("Error: ", error);
     }
+    setIsLoading(false);
   }
 
   if(score1 > scores){
@@ -59,11 +61,14 @@ export default function ResultsScreen() {
     setScores(score1);
     setIsNewTopScore(true);
   }
+  else{
+    setIsLoading(false);
+  }
 
   return (
     <View style={styles.resultView}>
       {isNewTopScore && <Text>Congratulations! New Top Score: {scores}</Text>}
-      {isLoading ? (<ActivityIndicator/>): (<Text>Top Score: {scores}</Text>)}
+      {(isLoading && isLoading2) ? (<ActivityIndicator/>): (<Text>Top Score: {scores}</Text>)}
       <Text>{username}: {score1}</Text>
       <Text style={styles.resultText}>Score: {score}</Text>
       <Pressable 

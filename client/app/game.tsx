@@ -27,7 +27,7 @@ type wordListProps = {
 
 //Wordlist of best scoring words minus all the words already scored
 const WordList = (props: wordListProps) => {
-  const [wordList, setWordList] = useState<string[]>(trie.solve_board(props.board, 5).flat().reverse()); 
+  const [wordList] = useState<string[]>(trie.solve_board(props.board, 5).flat().reverse()); 
   const filteredWords = wordList.filter(word => !props.usedWords.includes(word)).slice(0, 20);
   return (
     <View style={styles.wordList}> 
@@ -80,9 +80,7 @@ const Grid = () => {
     Array.from({ length: 5 }, () => Array(5).fill(false))
   );
   //Some cleaning up/unused vars
-  const [board, setBoard] = useState<string[][]>(make_rand_board(5));
-  const [posx, setPosx] = useState<number>(0);
-  const [posy, setPosy] = useState<number>(0);
+  const [board] = useState<string[][]>(make_rand_board(5));
   const [layout, setLayout] = useState<{x: number, y: number}>({x: 0, y: 0});
   const targetRef = React.useRef<View>(null);
   const lastSelectedRef = React.useRef<string>('');
@@ -105,10 +103,6 @@ const Grid = () => {
     }
   }, [timer, score]);
 
-  const handlePanStart = (e: any) => {
-    setPosx(e.absoluteX); 
-    setPosy(e.absoluteY);
-  }
   useLayoutEffect(() => {
     targetRef.current?.measure((x: number, y: number) => {
       setLayout({x, y});
