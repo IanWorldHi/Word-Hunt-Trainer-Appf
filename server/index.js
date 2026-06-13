@@ -50,23 +50,17 @@ function authenticateTok(req, res, next){
     })
 }
 
-//would add the middleware to the below stuff - syntax should be as folows
-app.get('/ex', authenticateTok, (req, res) => {
-    res.json({user: req.user}); //this would work bc of middleware
-});
-
 
 //For score CRUD operations
 //Changing to username
 //pass username in req body alongside auth token
-app.route('/scores/')
+app.route('/scores', authenticateTok)
     .get( async (req, res, next) => {
         try{
             const username = req.body.username;
             const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);//this typa format prevent sql injection
             console.log(storeAll);
             res.status(200).json({
-                username, 
                 topScore: storeAll.rows[0].topscore
             });
         } 

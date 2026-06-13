@@ -5,8 +5,8 @@ import { useEffect } from "react";
 //do i have logout features? isn't it just closing the app
 
 export const WhContext = createContext({
-    scores: [] as number[],
-    setScores: (scores: number[]) => {},
+    scores: 0,
+    setScores: (scores: number) => {},
     username: "",
     accessToken: "",
     isLoading: true,
@@ -14,8 +14,9 @@ export const WhContext = createContext({
     logout: async (): Promise<void> => {},
 });
 
+//can wrap in hook apparently better 
 export const WhContextProvider = (props: any) => {
-    const [scores, setScores] = useState<number[]>([]);
+    const [scores, setScores] = useState<number>(0);
     const [username, setUsername] = useState<string>("");
     const [accessToken, setAccessToken] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -59,6 +60,28 @@ export const WhContextProvider = (props: any) => {
         };
         restoreSession();
     }, []);
+
+    useEffect(() => {
+        const fetchling = async () => {
+          try{
+            const response = await fetch("http://localhost:3001/scores", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+              },
+              body: JSON.stringify({username})
+            });
+            const data = await response.json();
+            setScores(data.topScore);
+          }
+          catch(error: unknown){
+            console.log("Error: ", error);
+            console.error("Error: ", error);
+          }
+        }
+        fetchling();
+      }, []);
 
     const setAuth = async (username: string, accessToken: string, refreshToken: string) => {
         await SecureStore.setItemAsync("refreshToken", refreshToken);

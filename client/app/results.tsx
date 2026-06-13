@@ -4,19 +4,10 @@ import {useLocalSearchParams, useRouter} from 'expo-router';
 import wordHunters from './apis/wordHunters';
 import { WhContext, WhContextProvider } from './context/whContext';
 
-type scoreRow = {
-  id: number,
-  name: string,
-  topscore: number,
-  dated: string 
-}
 
 type scoreResponse = {
   username: string,
-  numRows: number,
-  data: {
-    user: scoreRow[]
-  }
+  topScore: number
 }
 
 //need better error handling like an error screen
@@ -41,53 +32,39 @@ const requesting = async(request: Request) => {
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
-  const {scores, setScores} = React.useContext(WhContext);
-  useEffect(() => {
-    const fetchling = async () => {
-      try{
-        const response = await wordHunters.get("/scores/Pencil");
-        /* might be wrong place cuz we're fetching, maybe i should be fetching after user authentication
-        for(let i = 0; i< scores.length; i++){
-          if(scores[i] < ){
-
-          }
-        }
-        */
-        console.log(response);
-      }
-      catch(error: unknown){
-        console.log("Error: ", error);
-        console.error("Error: ", error);
-      }
-    }
-    fetchling();
-  }, []);
-
+  const {username, accessToken, scores, setScores} = React.useContext(WhContext);
   const [isLoading, setIsLoading] = useState(true); //beacuse promise will take time to resolve
-  const [data, setData] = useState(0); //switch to string after
-  const [rows, setRows] = useState<scoreRow[]>([]);
-
-  useEffect(() => {
-    const request = new Request("http://localhost:3001/scores/Pencil", {
-      method: "GET"
-    });
-    const loadData = async () => { //i could just do everything in here but leaving it out for now if reuse
-      const result = await requesting(request);
-      setData(result.numRows);
-      setRows(result.data.user);
-      setIsLoading(false);
-    };
-    loadData();
-  }, []); 
-  //empty dependency array means runs once only on mount
-
+  const [isNewTopScore, setIsNewTopScore] = useState(false);
   const router = useRouter();
   const { score } = useLocalSearchParams(); 
+  const score1 = parseInt(score as string, 10);
+  const newTopScore = async () => {
+    try{
+      const request = new Request("http://localhost:3001/scores", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({username, score})
+      });
+    }
+    catch(error: unknown){
+      console.log("Error: ", error);
+    }
+  }
+
+  if(score1 > scores){
+    newTopScore(); 
+    setScores(score1);
+    setIsNewTopScore(true);
+  }
+
   return (
-    <WhContextProvider>
     <View style={styles.resultView}>
-      {isLoading ? (<ActivityIndicator/>): (<Text>Top Score: {data}</Text>)}
-      {rows.length > 0 ? <Text>{rows[0].name}: {rows[0].topscore}</Text> : null}
+      {isNewTopScore && <Text>Congratulations! New Top Score: {scores}</Text>}
+      {isLoading ? (<ActivityIndicator/>): (<Text>Top Score: {scores}</Text>)}
+      <Text>{username}: {score1}</Text>
       <Text style={styles.resultText}>Score: {score}</Text>
       <Pressable 
         style={styles.resultButton}
@@ -103,7 +80,6 @@ export default function ResultsScreen() {
       </Pressable>
       <Text style={styles.result2Text}>Are you read to get better at WordHunt to beat your friends?</Text>
     </View>
-    </WhContextProvider>
   )
 }
 
