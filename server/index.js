@@ -54,8 +54,8 @@ function authenticateTok(req, res, next){
 //For score CRUD operations
 //Changing to username
 //pass username in req body alongside auth token
-app.route('/scores', authenticateTok)
-    .get( async (req, res, next) => {
+app.route('/scores')
+    .get(authenticateTok, async (req, res, next) => {
         try{
             const username = req.body.username;
             const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);//this typa format prevent sql injection
@@ -68,7 +68,7 @@ app.route('/scores', authenticateTok)
             next(err);
         };
     })
-    .put(async (req, res, next) => {
+    .put(authenticateTok, async (req, res, next) => {
         try{
             const username = req.body.username;
             const storeAll = await db("UPDATE user_scores1 SET topscore = $1 WHERE name = $2", [req.body.topscore, username]);
