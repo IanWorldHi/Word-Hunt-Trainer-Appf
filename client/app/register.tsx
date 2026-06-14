@@ -17,7 +17,7 @@ export default function Register() {
             return;
         }
         try{
-            const registerRes = await fetch(`${AUTH_URL}}/register`, {
+            const registerRes = await fetch(`${AUTH_URL}/register`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"
@@ -28,7 +28,7 @@ export default function Register() {
                 setError(await registerRes.text());
                 return;
             }
-            const loginRes = await fetch(`${AUTH_URL}}/login`, {
+            const loginRes = await fetch(`${AUTH_URL}/login`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"

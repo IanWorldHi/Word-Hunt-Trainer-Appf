@@ -12,13 +12,7 @@ const PORT = process.env.PORT || 4002; //changed from port2 to port for redis
 
 const client = createClient({url: process.env.REDIS_URL}); //redis, url bc of railway's configuration 
 client.on('error', err => console.log('Redis Client Error', err));
-try {
-    await client.connect();
-    console.log('Redis connected successfully');
-} catch (err) {
-    console.log('Redis connection failed:', err.message);
-    process.exit(1);
-}
+await client.connect();
 
 app.use(morgan("dev"));
 app.use(express.json());
