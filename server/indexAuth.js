@@ -8,9 +8,9 @@ import jwt from "jsonwebtoken";
 import { createClient } from "redis";
 
 const app = express();  
-const PORT = process.env.PORT2 || 4002;
+const PORT = process.env.PORT || 4002; //changed from port2 to port for redis
 
-const client = createClient(); //redis
+const client = createClient({url: process.env.REDIS_URL}); //redis, url bc of railway's configuration 
 client.on('error', err => console.log('Redis Client Error', err));
 await client.connect();
 

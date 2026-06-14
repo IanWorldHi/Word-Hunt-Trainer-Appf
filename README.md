@@ -1,13 +1,18 @@
 # Word Hunt Trainer App
 
-This is an project made wwith React Native, Typescript and Expo (https://expo.dev) 
+This is an project made with PostgreSQL, Express.js, React Native, Node.js, Typescript, Javascript, Redis and expo (https://expo.dev). 
+
 Replica of the popular game WordHunt from iphone's GamePigeon using a trie. Additionaly contains a board solver displaying the highest possible scoring words updated in real time and haptic feedback. Designed as a training app to both play the game and improve pattern recognition in the game. 
+
+Additionally implements authentication and authorization with bcrypt, jwt, and expo-secure-storage alongside Redis. 
+<!--Context, fetch api, panGesture, 2 servers, we using railway now -->
 
 <p align="center">
   <img src="client/assets/Animation.gif" width="700" alt="Demo">
 </p>
 
 
+<!--Got to add creating postgres db, redis, and running server and authserver -->
 ## Running the app for yourself!
 
 
@@ -20,6 +25,8 @@ Replica of the popular game WordHunt from iphone's GamePigeon using a trie. Addi
 
 
 <!-- 
+//figure out best way to write readme and on resume
+
 Will be PERN mobile setup/stack 
 
 Future Improvement: animation, remove stacking screens, maybe add customization for if web or app ie diff spacing and diff board randomization (ore vowels, easy consnants and s,r,d) 
@@ -66,7 +73,6 @@ docker start redis
 docker rm redis
 
 
-
 Postgres commands:
 db = wordapp
 /d for all tables
@@ -81,7 +87,3 @@ CREATE TABLE user_scores1 (
     topscore INTEGER NOT NULL,
     dated    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--->
-
-
