@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import { WhContext } from '../context/whContext';
+import { SCORES_URL } from '../apis/wordHunters';
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
@@ -16,7 +17,7 @@ export default function ResultsScreen() {
   useEffect(() => {
           const fetchling = async () => {
             try{
-              const response = await fetch("http://localhost:3001/scores", {
+              const response = await fetch(`${SCORES_URL}}scores`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
@@ -36,7 +37,7 @@ export default function ResultsScreen() {
           setIsLoading2(false);
           const newTopScore = async () => {
             try{
-              const request = await fetch("http://localhost:3001/scores", {
+              const request = await fetch(`${SCORES_URL}}scores`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",

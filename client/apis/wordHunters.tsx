@@ -15,3 +15,7 @@ export const wordAuth = axios.create({
 });
 
  */
+
+export const SCORES_URL = "word-hunt-trainer-appf-production.up.railway.app";
+export const AUTH_URL = "authserver-production-af61.up.railway.app";
+

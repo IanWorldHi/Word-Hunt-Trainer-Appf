@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { WhContext } from "../context/whContext";
+import { AUTH_URL } from "../apis/wordHunters";
 
 export default function Register() {
     const [username, setUsername] = useState("");
@@ -16,7 +17,7 @@ export default function Register() {
             return;
         }
         try{
-            const registerRes = await fetch("http://localhost:4001/register", {
+            const registerRes = await fetch(`${AUTH_URL}}/register`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"
@@ -27,7 +28,7 @@ export default function Register() {
                 setError(await registerRes.text());
                 return;
             }
-            const loginRes = await fetch("http://localhost:4001/login", {
+            const loginRes = await fetch(`${AUTH_URL}}/login`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json"

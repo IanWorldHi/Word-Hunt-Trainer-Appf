@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { WhContext } from "../context/whContext";
+import { AUTH_URL } from "../apis/wordHunters";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -13,7 +14,7 @@ export default function Login() {
     //have to add a register function as well
     const handleLogin = async () => {
         try {
-            const res = await fetch("http://localhost:4001/login", {
+            const res = await fetch(`${AUTH_URL}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
