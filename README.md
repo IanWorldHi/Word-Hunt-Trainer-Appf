@@ -1,10 +1,14 @@
 # Word Hunt Trainer App
 
-This is an project made with PostgreSQL, Express.js, React Native, Node.js, Typescript, Javascript, Redis and expo (https://expo.dev). 
+- Frontend: React Native, Expo, TypeScript, Expo Router, Context API
+- Backend: Node.js, Express.js
+- Database: PostgreSQL
+- Cache: Redis
+- Auth: JWT, bcrypt, expo-secure-store
+- Deployment: Railway
 
 Replica of the popular game WordHunt from iphone's GamePigeon using a trie. Additionaly contains a board solver displaying the highest possible scoring words updated in real time and haptic feedback. Designed as a training app to both play the game and improve pattern recognition in the game. 
 
-Additionally implements authentication and authorization with bcrypt, jwt, and expo-secure-storage alongside Redis. 
 <!--Context, fetch api, panGesture, 2 servers, we using railway now -->
 
 <p align="center">
@@ -18,13 +22,15 @@ Additionally implements authentication and authorization with bcrypt, jwt, and e
 
    ```bash
    git clone https://github.com/IanWorldHi/Word-Hunt-Trainer-Appf.git
-   cd Word-Hunt-Trainer-Appf
+   cd Word-Hunt-Trainer-Appf/client
    npm install
    npx expo start
    ```
 
 
 <!-- 
+https://railway.com/project/477e86cb-ffdd-4783-9f7a-0fb3a69051cb?environmentId=7aac1379-c50f-4f01-939d-755d83a0bb12
+
 //figure out best way to write readme and on resume
 
 Will be PERN mobile setup/stack 
