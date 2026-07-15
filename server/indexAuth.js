@@ -19,7 +19,6 @@ app.use(express.json());
 app.use(cors());
 
 
-
 //Logining in and authetnicating users
 app.post('/login', async (req, res) => {
     try{

@@ -25,7 +25,6 @@ function AuthFunc(){
 // Header Customization for Screens
 //Make it so that not every result gets turned into a new layer and get rid of the back button in result screen AND homescreen
 //back button seems to track history/stacked screens, make it not stack
-//i dont htink i stacked the login properly to start there
 export default function RootLayout() {
   const router = useRouter();
   return (
