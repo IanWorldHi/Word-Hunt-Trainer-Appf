@@ -1,6 +1,6 @@
 # Word Hunt Trainer App
 
-- Frontend: React Native, Expo, TypeScript, Expo Router, Context API
+- Frontend: React Native, Expo, JavaScript, TypeScript, Expo Router, Context API
 - Backend: Node.js, Express.js
 - Database: PostgreSQL
 - Cache: Redis
