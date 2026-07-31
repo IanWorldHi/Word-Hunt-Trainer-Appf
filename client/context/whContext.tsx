@@ -1,6 +1,7 @@
 import React, {createContext, useState, useEffect} from "react";
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from "react-native";
+import { AUTH_URL } from "../apis/wordHunters";
 
 
 //if I were to ship to production for web I would use cookies
@@ -51,7 +52,7 @@ export const WhContextProvider = (props: any) => {
                 const refTok = await secureGet("refreshToken");
                 const savUsername = await secureGet("username");
                 if(refTok && savUsername){
-                    const res = await fetch("http://localhost:4001/token", {
+                    const res = await fetch(`${AUTH_URL}/token`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"

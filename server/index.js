@@ -57,7 +57,7 @@ function authenticateTok(req, res, next){
 app.route('/scores')
     .get(authenticateTok, async (req, res, next) => {
         try{
-            const username = req.body.username;
+            const username = req.user.username;
             const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);//this typa format prevent sql injection
             console.log(storeAll);
             res.status(200).json({
@@ -70,7 +70,7 @@ app.route('/scores')
     })
     .put(authenticateTok, async (req, res, next) => {
         try{
-            const username = req.body.username;
+            const username = req.user.username;
             const storeAll = await db("UPDATE user_scores1 SET topscore = $1 WHERE name = $2", [req.body.topscore, username]);
             res.status(200).json({username, topscore: req.body.topscore});
         } 

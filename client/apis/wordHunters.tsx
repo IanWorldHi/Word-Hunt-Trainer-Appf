@@ -16,7 +16,8 @@ export const wordAuth = axios.create({
 
  */
 
-export const SCORES_URL = "https://word-hunt-trainer-appf-production.up.railway.app";
-export const AUTH_URL = "https://authserver-production-6885.up.railway.app";
+//need to change to ip address bc of expo, store in env
+export const SCORES_URL = "http://localhost:3001";
+export const AUTH_URL = "http://localhost:4001";
 
 

@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 import { createClient } from "redis";
 
 const app = express();  
-const PORT = process.env.PORT || 4002; //changed from port2 to port for redis
+const PORT = process.env.PORT2 || 4001;
 
 const client = createClient({url: process.env.REDIS_URL}); //redis, url bc of railway's configuration 
 client.on('error', err => console.log('Redis Client Error', err));
@@ -25,14 +25,15 @@ app.post('/login', async (req, res) => {
         const user1 = await db("SELECT username, password FROM users WHERE username = $1", [req.body.username]);
         const user = user1.rows[0];
         if(user == null){
-            return res.status(400).send("Cannot find user");
+            return res.status(400).send("Incorrect username or password.");
         }
-        const accessTok = generateAccessToken(user);
+        if(!await bcrypt.compare(req.body.password, user.password)){
+            return res.status(400).send("Incorrect username or password.");
+        }
+        const accessTok = generateAccessToken(user.username);
         const refreshTok = jwt.sign({username: user.username}, process.env.REFRESH_SECRET);
         await client.set(refreshTok, user.username, {EX: 60*60*24*3}); //3 days, syntax is EX
-        if(await bcrypt.compare(req.body.password, user.password)){
-            res.json({accessToken: accessTok, refreshToken: refreshTok});
-        }
+        res.json({accessToken: accessTok, refreshToken: refreshTok});
     }
     catch{
         res.status(500).send("Error logging in");
@@ -63,12 +64,11 @@ app.post('/register', async(req, res, next) => {
     try{
         const salt = await bcrypt.genSalt(10); //default is 10, there is synchrous verseion of genSaltSync
         const hashedPwd = await bcrypt.hash(req.body.password, salt);
-        console.log(salt + " and " + hashedPwd);
         
         const hm = {username: req.body.username, password: hashedPwd};
         await db("INSERT INTO users (username, password) VALUES ($1, $2)", [hm.username, hm.password]);
         await db("INSERT INTO user_scores1 (name, topscore) VALUES ($1, $2)", [hm.username, 0]);
-        res.status(201).json({status: "success", data: hm});
+        res.status(201).json({status: "success", data: {username: hm.username}});
     }
     catch(err){
         console.error(err);
@@ -78,12 +78,12 @@ app.post('/register', async(req, res, next) => {
 
 app.delete('/logout', async (req, res) => {
     await client.del(req.body.refreshToken);
-    res.status(204);
+    res.sendStatus(204);
 });
 
 
-function generateAccessToken(user){
-    return jwt.sign({username: user}, process.env.JWT_SECRET, {expiresIn: '1800s'}); //30 mins
+function generateAccessToken(username){
+    return jwt.sign({username: username}, process.env.JWT_SECRET, {expiresIn: '1800s'}); //30 mins
 }
 
 

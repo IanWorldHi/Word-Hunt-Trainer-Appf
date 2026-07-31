@@ -17,13 +17,12 @@ export default function ResultsScreen() {
   useEffect(() => {
           const fetchling = async () => {
             try{
-              const response = await fetch(`${SCORES_URL}}scores`, {
+              const response = await fetch(`${SCORES_URL}/scores`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
                   "Authorization": `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({username})
               });
               const data = await response.json();
               setScores(data.topScore);
@@ -37,7 +36,7 @@ export default function ResultsScreen() {
           setIsLoading2(false);
           const newTopScore = async () => {
             try{
-              const request = await fetch(`${SCORES_URL}}scores`, {
+              const request = await fetch(`${SCORES_URL}/scores`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",

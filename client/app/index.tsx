@@ -14,7 +14,7 @@ export default function HomeScreen() {
       >
         <Text style={styles.homeButtonText}>Start Game</Text>
       </Pressable>
-      <Text style={styles.home2Text}>Are you read to get better at WordHunt to beat your friends?</Text>
+      <Text style={styles.home2Text}>Are you ready to get better at WordHunt to beat your friends?</Text>
     </View>
   )
 }
