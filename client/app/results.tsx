@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'; 
+import React, {DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS, useEffect, useState} from 'react'; 
 import {ActivityIndicator, Text, View, StyleSheet, Pressable} from 'react-native';  //uses JSX;
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import { WhContext } from '../context/whContext';
@@ -15,52 +15,58 @@ export default function ResultsScreen() {
   const score1 = parseInt(score as string, 10);
   
   useEffect(() => {
-          const fetchling = async () => {
-            try{
-              const response = await fetch(`${SCORES_URL}/scores`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${accessToken}`
-                },
-              });
-              const data = await response.json();
-              setScores(data.topScore);
-            }
-            catch(error: unknown){
-              console.log("Error: ", error);
-              console.error("Error: ", error);
-            }
-          }
-          fetchling();
-          setIsLoading2(false);
-          const newTopScore = async () => {
-            try{
-              const request = await fetch(`${SCORES_URL}/scores`, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${accessToken}`
-                },
-                body: JSON.stringify({username, score1})
-              });
-              if(!request.ok){
-                console.error("Failed to update top score");
-              }
-            }
-            catch(error: unknown){
-              console.log("Error: ", error);
-            }
-            setIsLoading(false);
-          }
-          if(score1 > scores){
-            setIsNewTopScore(true);
-            setScores(score1);
-            newTopScore();
-          }
-          else{
-            setIsNewTopScore(false);
-          }
+    const fetchling = async () => {
+      try{
+        const response = await fetch(`${SCORES_URL}/scores`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
+          },
+        });
+        const data = await response.json();
+        setScores(data.topScore);
+        return data.topScore;
+      }
+      catch(error: unknown){
+        console.error("Error: ", error);
+        return null;
+      }
+    }
+    const newTopScore = async () => {
+      try{
+        const request = await fetch(`${SCORES_URL}/scores`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
+          },
+          body: JSON.stringify({topscore: score1})
+        });
+        if(!request.ok){
+          console.error("Failed to update top score");
+        }
+      }
+      catch(error: unknown){
+        console.log("Error: ", error);
+      }
+      setIsLoading(false);
+    }
+    const run = async() => {
+      const topScore = await fetchling();
+      if(topScore !== null){
+        if(score1 > topScore){
+          setIsNewTopScore(true);
+          setScores(score1);
+          await newTopScore();
+        }
+        else{
+          setIsNewTopScore(false);
+        }
+      }
+      setIsLoading(false);
+    }
+    run();
   }, [accessToken, username, score1, scores, score, setScores]);
   
   return (
