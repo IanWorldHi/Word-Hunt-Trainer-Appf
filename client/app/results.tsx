@@ -8,7 +8,6 @@ import { SCORES_URL } from '../apis/wordHunters';
 export default function ResultsScreen() {
   const {username, accessToken, scores, setScores} = React.useContext(WhContext);
   const [isLoading, setIsLoading] = useState(true); //beacuse promise will take time to resolve
-  const [isLoading2, setIsLoading2] = useState(true);
   const [isNewTopScore, setIsNewTopScore] = useState(false);
   const router = useRouter();
   const { score } = useLocalSearchParams(); 
@@ -72,7 +71,7 @@ export default function ResultsScreen() {
   return (
     <View style={styles.resultView}>
       {isNewTopScore && <Text>Congratulations! New Top Score: {scores}</Text>}
-      {(isLoading && isLoading2) ? (<ActivityIndicator/>): (<Text style={styles.resultText}>Top Score: {scores}</Text>)}
+      {(isLoading) ? (<ActivityIndicator/>): (<Text style={styles.resultText}>Top Score: {scores}</Text>)}
       <Text style={styles.resultText}>Score: {score} ({username})</Text>
       <Pressable 
         style={styles.resultButton}
