@@ -27,7 +27,7 @@ type wordListProps = {
 
 //Wordlist of best scoring words minus all the words already scored
 const WordList = (props: wordListProps) => {
-  const [wordList] = useState<string[]>(trie.solve_board(props.board, 5).flat().reverse()); 
+  const [wordList] = useState<string[]>(() => trie.solve_board(props.board, 5).flat().reverse());
   const filteredWords = wordList.filter(word => !props.usedWords.includes(word)).slice(0, 20);
   return (
     <View style={styles.wordList}> 
@@ -102,12 +102,6 @@ const Grid = () => {
       router.replace(`/results?score=${score}`);
     }
   }, [timer, score]);
-
-  useLayoutEffect(() => {
-    targetRef.current?.measure((x: number, y: number) => {
-      setLayout({x, y});
-    });
-  }, []);
   
   const TILESIZE = 58;
   const TILEMARGIN = 4;
@@ -220,12 +214,11 @@ const Grid = () => {
       <GestureDetector gesture={panGesture}>
         <View style={styles.gridContainer} ref={targetRef}
         onLayout={() => {
-          const timer = setTimeout(() => {
+          setTimeout(() => {
             targetRef.current?.measure((x, y, width, height, pageX, pageY) => {
             setLayout({x: pageX, y: pageY});
           });
           }, 100);
-          return () => clearTimeout(timer);
         }}
         >
         {board.map((row, key1) => (
@@ -309,7 +302,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#2e7da782',
     padding: 10,
     borderWidth: 2,
-    borderColor : '#2e34a4000',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -345,7 +337,7 @@ const styles = StyleSheet.create({
     width: 360,
     height: 360,
     borderWidth: 5,
-    borderColor: '#black',
+    borderColor: 'black',
     backgroundColor: '#3e6223',
     padding: 10,
     borderRadius: 10,
