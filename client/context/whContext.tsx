@@ -29,6 +29,7 @@ export const WhContext = createContext({
     accessToken: "",
     isLoading: true,
     setAuth: async (username: string, accessToken: string, refreshToken: string): Promise<void> => {},
+    refreshAccessToken: async (): Promise<void> => {},
     logout: async (): Promise<void> => {},
 });
 
@@ -85,6 +86,30 @@ export const WhContextProvider = (props: any) => {
         setUsername(username);
         setAccessToken(accessToken);
     };
+
+    const refreshAccessToken = async () => {
+        const refTok = await secureGet("refreshToken");
+        if(!refTok){
+            await logout();
+            return;
+        }
+        const res = await fetch(`${AUTH_URL}/token`, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({refreshToken: refTok})
+        });
+        if(res.ok){
+            const data = await res.json();
+            setAccessToken(data.accessToken);
+            return data.accessToken;
+        }
+        else{
+            await logout();
+            return;
+        }
+    }
 
     return(
         <WhContext.Provider value={{scores: scores, setScores: setScores, username, accessToken, isLoading, setAuth, logout}}>
