@@ -53,9 +53,6 @@ export default function ResultsScreen() {
           setScores(score1);
           await newTopScore();
         }
-        else{
-          setIsNewTopScore(false);
-        }
       }
       setIsLoading(false);
     }

@@ -5,13 +5,9 @@
 - Database: PostgreSQL
 - Cache: Redis
 - Auth: JWT, bcrypt, expo-secure-store
-- Deployment: Railway (Cancelled due to expiration of free trial)
-
-(Currently in the process of changing back from railway to local deployement ~ may not run properly)
+- Deployment: Railway
 
 Replica of the popular game WordHunt from iphone's GamePigeon using a trie, an authetnication server and a data serrver. Additionaly contains a board solver displaying the highest possible scoring words updated in real time and haptic feedback. Designed as a training app to both play the game and improve pattern recognition in the game. 
-
-(Currently ran out of Railway free trial, will not work plus troubleshooting something)
 
 <p align="center">
   <img src="client/assets/Animation.gif" width="700" alt="Demo">
@@ -31,6 +27,8 @@ Replica of the popular game WordHunt from iphone's GamePigeon using a trie, an a
 - Remove/restructure stacking screens
 - Add better algorithm for board creation
 - Add local developement setup isntructions
+- Change to useRef hook for positions
+- Fix logout 
 
 <!-- 
 (Rough work/notes moved to Storage)

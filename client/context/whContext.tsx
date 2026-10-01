@@ -41,6 +41,21 @@ export const WhContextProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
     const logout = async () => {
+        const refTok = await secureGet("refreshToken");
+        if(refTok){
+            try{
+                await fetch(`${AUTH_URL}/logout`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({refreshToken: refTok})
+                });
+            }
+            catch(error: unknown){
+                console.error("Could not revoke refresh token: ", error);
+            }
+        }
         await secureDel("refreshToken");
         await secureDel("username");
         setUsername("");
@@ -97,7 +112,7 @@ export const WhContextProvider = (props: any) => {
             }
         );
         const first = await send(accessToken);
-        if(first.ok){
+        if(first.status !== 401 && first.status !== 403){
             return first;
         }
         const newToken = await refreshAccessToken();
