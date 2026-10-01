@@ -6,7 +6,7 @@ import { SCORES_URL } from '../apis/wordHunters';
 
 //Results screen with score passed through useRouter. Also routes to game and home screen
 export default function ResultsScreen() {
-  const {username, accessToken, scores, setScores} = React.useContext(WhContext);
+  const {username, authedFetch, scores, setScores} = React.useContext(WhContext);
   const [isLoading, setIsLoading] = useState(true); //beacuse promise will take time to resolve
   const [isNewTopScore, setIsNewTopScore] = useState(false);
   const router = useRouter();
@@ -16,13 +16,11 @@ export default function ResultsScreen() {
   useEffect(() => {
     const fetchling = async () => {
       try{
-        const response = await fetch(`${SCORES_URL}/scores`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`
-          },
-        });
+        const response = await authedFetch(`${SCORES_URL}/scores`, {method: "GET"});
+        if(!response.ok){
+          console.error("Failed to fetch top score");
+          return null;
+        }
         const data = await response.json();
         setScores(data.topScore);
         return data.topScore;
@@ -34,12 +32,8 @@ export default function ResultsScreen() {
     }
     const newTopScore = async () => {
       try{
-        const request = await fetch(`${SCORES_URL}/scores`, {
+        const request = await authedFetch(`${SCORES_URL}/scores`, {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`
-          },
           body: JSON.stringify({topscore: score1})
         });
         if(!request.ok){
@@ -66,7 +60,7 @@ export default function ResultsScreen() {
       setIsLoading(false);
     }
     run();
-  }, [accessToken, username, score1, scores, score, setScores]);
+  }, [setScores, score1, authedFetch]);
   
   return (
     <View style={styles.resultView}>
