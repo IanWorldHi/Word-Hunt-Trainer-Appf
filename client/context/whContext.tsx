@@ -30,6 +30,7 @@ export const WhContext = createContext({
     isLoading: true,
     setAuth: async (username: string, accessToken: string, refreshToken: string): Promise<void> => {},
     logout: async (): Promise<void> => {},
+    authedFetch: async (url: string, options: RequestInit): Promise<Response> => { throw new Error("not using implementation"); }
 });
 
 //can wrap in hook apparently better 
@@ -40,6 +41,21 @@ export const WhContextProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
     const logout = async () => {
+        const refTok = await secureGet("refreshToken");
+        if(refTok){
+            try{
+                await fetch(`${AUTH_URL}/logout`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({refreshToken: refTok})
+                });
+            }
+            catch(error: unknown){
+                console.error("Could not revoke refresh token: ", error);
+            }
+        }
         await secureDel("refreshToken");
         await secureDel("username");
         setUsername("");
@@ -86,8 +102,52 @@ export const WhContextProvider = (props: any) => {
         setAccessToken(accessToken);
     };
 
+    const authedFetch = async (url: string, options: RequestInit): Promise<Response> => {
+        const send = (tok: string) => fetch(url, {
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${tok}`
+            }
+            }
+        );
+        const first = await send(accessToken);
+        if(first.status !== 401 && first.status !== 403){
+            return first;
+        }
+        const newToken = await refreshAccessToken();
+        if(!newToken){
+            return first;
+        }
+        return send(newToken);
+    }
+
+    const refreshAccessToken = async () => {
+        const refTok = await secureGet("refreshToken");
+        if(!refTok){
+            await logout();
+            return "";
+        }
+        const res = await fetch(`${AUTH_URL}/token`, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({refreshToken: refTok})
+        });
+        if(res.ok){
+            const data = await res.json();
+            setAccessToken(data.accessToken);
+            return data.accessToken;
+        }
+        else{
+            await logout();
+            return "";
+        }
+    }
+
     return(
-        <WhContext.Provider value={{scores: scores, setScores: setScores, username, accessToken, isLoading, setAuth, logout}}>
+        <WhContext.Provider value={{scores: scores, setScores: setScores, username, accessToken, isLoading, setAuth, logout, authedFetch}}>
             {props.children}
         </WhContext.Provider>
     )

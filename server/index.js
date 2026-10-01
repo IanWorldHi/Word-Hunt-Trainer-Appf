@@ -59,6 +59,9 @@ app.route('/scores')
         try{
             const username = req.user.username;
             const storeAll = await db("SELECT * FROM user_scores1 WHERE name = $1", [username]);//this typa format prevent sql injection
+            if(storeAll.rows.length === 0){
+                return res.status(404).send("No score row for user");
+            }
             res.status(200).json({
                 topScore: storeAll.rows[0].topscore
             });
