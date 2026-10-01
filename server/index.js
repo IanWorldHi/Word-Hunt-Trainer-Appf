@@ -72,6 +72,9 @@ app.route('/scores')
             const username = req.user.username;
             const topscore = Number(req.body.topscore);
             const storeAll = await db("UPDATE user_scores1 SET topscore = $1 WHERE name = $2", [topscore, username]);
+            if(storeAll.rows.length === 0){
+                return res.status(404).send("No score row for user");
+            }
             res.status(200).json({username, topscore});
         }
         catch(err){
