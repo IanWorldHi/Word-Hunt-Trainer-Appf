@@ -62,7 +62,7 @@ export default function ResultsScreen() {
   return (
     <View style={styles.resultView}>
       {isNewTopScore && <Text>Congratulations! New Top Score: {scores}</Text>}
-      {(isLoading) ? (<ActivityIndicator/>): (<Text style={styles.resultText}>Top Score: {scores}</Text>)}
+      {!isNewTopScore && (isLoading ? (<ActivityIndicator/>) : (<Text style={styles.resultText}>Top Score: {scores}</Text>))}
       <Text style={styles.resultText}>Score: {score} ({username})</Text>
       <Pressable 
         style={styles.resultButton}
