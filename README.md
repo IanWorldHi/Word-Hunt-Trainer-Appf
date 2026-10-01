@@ -6,6 +6,7 @@
 - Cache: Redis
 - Auth: JWT, bcrypt, expo-secure-store
 - Deployment: Railway
+(Currently on Expo SDK 54 - may not work on mobile)
 
 Replica of the popular game WordHunt from iphone's GamePigeon using a trie, an authetnication server and a data serrver. Additionaly contains a board solver displaying the highest possible scoring words updated in real time and haptic feedback. Designed as a training app to both play the game and improve pattern recognition in the game. 
 
